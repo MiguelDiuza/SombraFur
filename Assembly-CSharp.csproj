@@ -64,7 +64,9 @@
     <Compile Include="Assets\SciFi Warehouse Kit\Demo\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\SciFi Warehouse Kit\Demo\Scripts\PlayRandomSound.cs" />
     <Compile Include="Assets\content\Script\camaraMove.cs" />
+    <Compile Include="Assets\content\Script\WeaponController.cs" />
     <Compile Include="Assets\content\Script\camaraPerson.cs" />
+    <Compile Include="Assets\content\Script\BulletController.cs" />
     <Compile Include="Assets\content\Script\playerMoveP.cs" />
     <Compile Include="Assets\SciFi Warehouse Kit\Demo\Scripts\MouseComponent.cs" />
     <Compile Include="Assets\content\Script\p.cs" />

@@ -12,6 +12,9 @@ public class playerMoveP : MonoBehaviour
     Animator playerAnim;
 
     public float playerSpeed = 0f;
+
+    public bool hasPistol = false;
+
     private Vector2 newDirection;
 
     //Camara
@@ -35,6 +38,10 @@ public class playerMoveP : MonoBehaviour
 
         theCamera = Camera.main.transform;
         playerAnim = this.GetComponentInChildren<Animator>();
+
+        hasPistol = true;
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
@@ -96,6 +103,13 @@ public class playerMoveP : MonoBehaviour
     {
         playerAnim.SetFloat("X", newDirection.x);
         playerAnim.SetFloat("Y", newDirection.y);
+
+        playerAnim.SetBool("holdPistol", hasPistol);
+
+        if (hasPistol)
+        {
+            playerAnim.SetLayerWeight(1, 1);
+        }
     }
 
 }
