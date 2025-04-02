@@ -7,7 +7,7 @@
       "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\content\\script\\sombra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|c:\\users\\mandi\\documents\\github\\sombrafur\\assets\\content\\script\\playermovep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\assets\\content\\script\\playermovep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\content\\script\\playermovep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -38,8 +38,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -48,7 +52,7 @@
               "RelativeDocumentMoniker": "Assets\\content\\Script\\Sombra.cs",
               "ToolTip": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\Sombra.cs",
               "RelativeToolTip": "Assets\\content\\Script\\Sombra.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGYAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAAswCEAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-02T09:32:26.961Z",
               "EditorCaption": ""
@@ -63,8 +67,7 @@
               "RelativeToolTip": "Assets\\content\\Script\\playerMoveP.cs",
               "ViewState": "AgIAAGwAAAAAAAAAAAAwwCIAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-29T19:42:53.146Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-29T19:42:53.146Z"
             },
             {
               "$type": "Document",
@@ -89,10 +92,6 @@
               "ViewState": "AgIAAEgAAAAAAAAAAAAmwGwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-02T04:57:36.352Z"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
               "$type": "Document",

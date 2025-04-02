@@ -3,135 +3,94 @@ using UnityEngine;
 
 public class Sombra : MonoBehaviour
 {
-    public GameObject playerModel; // Modelo del jugador
-    public ParticleSystem vanishEffect; // Sistema de partículas
-    public float vanishTime = 7f; // Tiempo oculto
-    public float fadeSpeed = 2f; // Velocidad del desvanecimiento
-    public float sinkDistance = 2f; // Distancia que se hundirá
-    public float sinkSpeed = 2f; // Velocidad de hundimiento
-
-    private Renderer[] renderers;
-    private bool isVanishing = false;
-    private Vector3 originalPosition;
+    public SkinnedMeshRenderer playerRenderer; // Renderer del personaje
+    public ParticleSystem sombraEffectPrefab; // Prefab del sistema de partículas
+    public float fadeDuration = 1f; // Tiempo de transición
+    private bool isShadowMode = false;
+    private Material[] originalMaterials; // Guardamos los materiales originales
+    private ParticleSystem activeParticles; // Partículas activas
 
     void Start()
     {
-        renderers = playerModel.GetComponentsInChildren<Renderer>();
-        originalPosition = playerModel.transform.position;
+        // Guardamos una copia de los materiales originales para restaurarlos después
+        originalMaterials = playerRenderer.materials;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && !isVanishing)
+        if (Input.GetKeyDown(KeyCode.Q) && !isShadowMode)
         {
-            StartCoroutine(Vanish());
+            StartCoroutine(EnterShadowMode());
         }
     }
 
-    IEnumerator Vanish()
+    IEnumerator EnterShadowMode()
     {
-        isVanishing = true;
+        isShadowMode = true;
 
-        // Iniciar partículas dentro del personaje
-        if (vanishEffect != null)
+        // Crear un clon de los materiales para modificar su opacidad sin afectar el original
+        Material[] shadowMaterials = new Material[originalMaterials.Length];
+        for (int i = 0; i < originalMaterials.Length; i++)
         {
-            vanishEffect.transform.position = playerModel.transform.position;
-            vanishEffect.Play();
+            shadowMaterials[i] = new Material(originalMaterials[i]); // Clonar material
+            shadowMaterials[i].SetFloat("_Mode", 2); // Configurar en modo Fade
+            shadowMaterials[i].SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            shadowMaterials[i].SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            shadowMaterials[i].SetInt("_ZWrite", 0);
+            shadowMaterials[i].DisableKeyword("_ALPHATEST_ON");
+            shadowMaterials[i].EnableKeyword("_ALPHABLEND_ON");
+            shadowMaterials[i].DisableKeyword("_ALPHAPREMULTIPLY_ON");
+            shadowMaterials[i].renderQueue = 3000;
         }
 
-        // Fade out y hundirse en el suelo
-        yield return StartCoroutine(FadeOutAndSink());
+        // Aplicar materiales modificados
+        playerRenderer.materials = shadowMaterials;
 
-        // Ocultar el modelo
-        foreach (Renderer rend in renderers)
+        // Reducir opacidad del personaje
+        yield return StartCoroutine(FadeCharacter(0f));
+
+        // Instanciar partículas en la posición del personaje
+        activeParticles = Instantiate(sombraEffectPrefab, transform.position, Quaternion.identity);
+        activeParticles.transform.SetParent(transform); // Asegurar que se mueva con el personaje
+        activeParticles.Play();
+
+        // Esperar 5 segundos en modo sombra
+        yield return new WaitForSeconds(5f);
+
+        // Detener y destruir partículas
+        if (activeParticles)
         {
-            rend.enabled = false;
+            activeParticles.Stop();
+            Destroy(activeParticles.gameObject, 1f); // Se destruye tras 1 segundo para que termine el efecto
         }
 
-        // Mover el sistema de partículas bajo tierra mientras está oculto
+        // Restaurar visibilidad del personaje
+        yield return StartCoroutine(FadeCharacter(1f));
+
+        // Restaurar los materiales originales
+        playerRenderer.materials = originalMaterials;
+
+        isShadowMode = false;
+    }
+
+    IEnumerator FadeCharacter(float targetAlpha)
+    {
         float elapsedTime = 0f;
-        Vector3 startPosition = vanishEffect.transform.position;
-        Vector3 targetPosition = startPosition - new Vector3(0, sinkDistance, 0);
+        float startAlpha = playerRenderer.materials[0].color.a;
 
-        while (elapsedTime < vanishTime)
+        while (elapsedTime < fadeDuration)
         {
-            vanishEffect.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / vanishTime);
             elapsedTime += Time.deltaTime;
-            yield return null;
-        }
+            float newAlpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / fadeDuration);
 
-        yield return new WaitForSeconds(vanishTime);
-
-        // Reactivar el modelo del jugador antes de resurgir
-        foreach (Renderer rend in renderers)
-        {
-            rend.enabled = true;
-        }
-
-        // Resurgir con partículas
-        StartCoroutine(RiseAndFadeIn());
-    }
-
-    IEnumerator FadeOutAndSink()
-    {
-        float alpha = 1f;
-        Vector3 targetPosition = playerModel.transform.position - new Vector3(0, sinkDistance, 0);
-
-        while (alpha > 0 || playerModel.transform.position.y > targetPosition.y)
-        {
-            alpha -= Time.deltaTime * fadeSpeed;
-            SetAlpha(alpha);
-
-            // Mover jugador hacia abajo
-            playerModel.transform.position = Vector3.MoveTowards(playerModel.transform.position, targetPosition, sinkSpeed * Time.deltaTime);
-
-            // Mover partículas con el jugador
-            if (vanishEffect != null)
-                vanishEffect.transform.position = playerModel.transform.position;
-
-            yield return null;
-        }
-    }
-
-    IEnumerator RiseAndFadeIn()
-    {
-        float alpha = 0f;
-        Vector3 targetPosition = originalPosition;
-
-        while (alpha < 1 || playerModel.transform.position.y < targetPosition.y)
-        {
-            alpha += Time.deltaTime * fadeSpeed;
-            SetAlpha(alpha);
-
-            // Mover jugador hacia arriba
-            playerModel.transform.position = Vector3.MoveTowards(playerModel.transform.position, targetPosition, sinkSpeed * Time.deltaTime);
-
-            // Mover partículas con el jugador mientras emerge
-            if (vanishEffect != null)
-                vanishEffect.transform.position = playerModel.transform.position;
-
-            yield return null;
-        }
-
-        // Detener partículas después de la reaparición
-        if (vanishEffect != null)
-        {
-            vanishEffect.Stop();
-        }
-
-        isVanishing = false;
-    }
-
-    void SetAlpha(float alpha)
-    {
-        foreach (Renderer rend in renderers)
-        {
-            if (rend.material.HasProperty("_Color"))
+            foreach (Material mat in playerRenderer.materials)
             {
-                Color color = rend.material.color;
-                color.a = Mathf.Clamp01(alpha);
-                rend.material.color = color;
+                Color newColor = mat.color;
+                newColor.a = newAlpha;
+                mat.color = newColor;
             }
+
+            yield return null;
         }
     }
 }
