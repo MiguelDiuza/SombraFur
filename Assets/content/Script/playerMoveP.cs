@@ -4,21 +4,16 @@ using UnityEngine;
 
 public class playerMoveP : MonoBehaviour
 {
-
-    //personaje
-
+    // Personaje
     Transform playerTr;
     Rigidbody playerRb;
     Animator playerAnim;
 
     public float playerSpeed = 0f;
-
     public bool hasPistol = false;
-
     private Vector2 newDirection;
 
-    //Camara
-
+    // Cámara
     public Transform cameraAxis;
     public Transform cameraTrack;
     public Transform cameraWeaponTrack;
@@ -32,25 +27,25 @@ public class playerMoveP : MonoBehaviour
     public float maxAngle = 45f;
     public float cameraSpeed = 200f;
 
-    //Items
-
+    // Items
     public GameObject nearItem;
-
     public GameObject itemPrefab;
-
     public Transform itemSlot;
-
     public GameObject crosshair;
+    public GameObject panel;
+
+    private bool isAiming = false;
 
     void Start()
     {
         playerTr = this.transform;
         playerRb = this.GetComponent<Rigidbody>();
-
         theCamera = Camera.main.transform;
         playerAnim = this.GetComponentInChildren<Animator>();
 
         Cursor.lockState = CursorLockMode.Locked;
+        cameraTrack.gameObject.SetActive(true);
+        cameraWeaponTrack.gameObject.SetActive(false);
     }
 
     void Update()
@@ -59,28 +54,32 @@ public class playerMoveP : MonoBehaviour
         CameraLogic();
         AnimLogic();
         ItemLogic();
+
+        if (hasPistol)
+        {
+            if (Input.GetMouseButtonDown(1)) // Si presiona clic derecho
+            {
+                playerAnim.SetBool("holdPistol", true); // Activar animación de apuntar
+            }
+            else if (Input.GetMouseButtonUp(1)) // Si suelta el clic derecho
+            {
+                playerAnim.SetBool("holdPistol", false); // Volver a animación normal
+            }
+        }
+
     }
 
     public void MoveLogic()
     {
-        // Obtener la dirección actual del Rigidbody
         Vector3 direction = playerRb.velocity;
-
-        // Capturar entrada del jugador
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
         float theTime = Time.deltaTime;
 
-        newDirection = new Vector2 (moveX, moveZ);
-
-        // Calcular movimiento en cada dirección
+        newDirection = new Vector2(moveX, moveZ);
         Vector3 side = playerSpeed * moveX * theTime * playerTr.right;
         Vector3 forward = playerSpeed * moveZ * theTime * playerTr.forward;
-
-        // Direccion final
         Vector3 endDirection = side + forward;
-
-        // Aplicar movimiento al Rigidbody
         playerRb.velocity = endDirection;
     }
 
@@ -90,43 +89,30 @@ public class playerMoveP : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y");
         float theTime = Time.deltaTime;
 
-        // Ajustar rotación en Y y X con sensibilidad
         rotY += mouseY * theTime * camRotSpeed;
         rotX = mouseX * theTime * camRotSpeed;
-
-        // Aplicar rotación horizontal al jugador
         playerTr.Rotate(0, rotX, 0);
-
-        // Limitar la rotación en Y para evitar giros excesivos
         rotY = Mathf.Clamp(rotY, minAngle, maxAngle);
+        cameraAxis.localRotation = Quaternion.Euler(-rotY, 0, 0);
 
-        // Aplicar la rotación a la cámara
-        Quaternion localRotation = Quaternion.Euler(-rotY, 0, 0);
-        cameraAxis.localRotation = localRotation;
-
-        if (hasPistol)
+        if (hasPistol && Input.GetMouseButton(1))
         {
+            isAiming = true;
             cameraTrack.gameObject.SetActive(false);
             cameraWeaponTrack.gameObject.SetActive(true);
-
             crosshair.gameObject.SetActive(true);
-
-            // Interpolación de posición y rotación para suavizar el movimiento de la cámara
             theCamera.position = Vector3.Lerp(theCamera.position, cameraWeaponTrack.position, cameraSpeed * theTime);
             theCamera.rotation = Quaternion.Lerp(theCamera.rotation, cameraWeaponTrack.rotation, cameraSpeed * theTime);
-        
         }
         else
         {
-
+            isAiming = false;
             cameraTrack.gameObject.SetActive(true);
             cameraWeaponTrack.gameObject.SetActive(false);
-            // Interpolación de posición y rotación para suavizar el movimiento de la cámara
+            crosshair.gameObject.SetActive(false);
             theCamera.position = Vector3.Lerp(theCamera.position, cameraTrack.position, cameraSpeed * theTime);
             theCamera.rotation = Quaternion.Lerp(theCamera.rotation, cameraTrack.rotation, cameraSpeed * theTime);
-
         }
-
     }
 
     public void AnimLogic()
@@ -134,11 +120,9 @@ public class playerMoveP : MonoBehaviour
         playerAnim.SetFloat("X", newDirection.x);
         playerAnim.SetFloat("Y", newDirection.y);
 
-        playerAnim.SetBool("holdPistol", hasPistol);
-
         if (hasPistol)
         {
-            playerAnim.SetLayerWeight(1, 1);
+            playerAnim.SetLayerWeight(1, isAiming ? 1 : 0);
         }
     }
 
@@ -147,13 +131,10 @@ public class playerMoveP : MonoBehaviour
         if (nearItem != null && Input.GetKeyDown(KeyCode.E))
         {
             GameObject instantiateItem = Instantiate(itemPrefab, itemSlot.position, itemSlot.rotation);
-
             Destroy(nearItem.gameObject);
-
             instantiateItem.transform.parent = itemSlot;
-
             hasPistol = true;
-
+            panel.SetActive(true);
             nearItem = null;
         }
     }
@@ -162,19 +143,17 @@ public class playerMoveP : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
-            Debug.Log("Hay un item cerca!");
+            Debug.Log("Hay un item cerca! tomalo con la tecla (E)");
             nearItem = other.gameObject;
         }
     }
-
 
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
             Debug.Log("Ya no hay un item cerca!");
-            nearItem = other.gameObject;
+            nearItem = null;
         }
     }
-
 }
