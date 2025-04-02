@@ -21,6 +21,7 @@ public class playerMoveP : MonoBehaviour
 
     public Transform cameraAxis;
     public Transform cameraTrack;
+    public Transform cameraWeaponTrack;
     private Transform theCamera;
 
     private float rotY = 0f;
@@ -31,6 +32,16 @@ public class playerMoveP : MonoBehaviour
     public float maxAngle = 45f;
     public float cameraSpeed = 200f;
 
+    //Items
+
+    public GameObject nearItem;
+
+    public GameObject itemPrefab;
+
+    public Transform itemSlot;
+
+    public GameObject crosshair;
+
     void Start()
     {
         playerTr = this.transform;
@@ -38,8 +49,6 @@ public class playerMoveP : MonoBehaviour
 
         theCamera = Camera.main.transform;
         playerAnim = this.GetComponentInChildren<Animator>();
-
-        hasPistol = true;
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -49,6 +58,7 @@ public class playerMoveP : MonoBehaviour
         MoveLogic();
         CameraLogic();
         AnimLogic();
+        ItemLogic();
     }
 
     public void MoveLogic()
@@ -94,9 +104,29 @@ public class playerMoveP : MonoBehaviour
         Quaternion localRotation = Quaternion.Euler(-rotY, 0, 0);
         cameraAxis.localRotation = localRotation;
 
-        // Interpolación de posición y rotación para suavizar el movimiento de la cámara
-        theCamera.position = Vector3.Lerp(theCamera.position, cameraTrack.position, cameraSpeed * theTime);
-        theCamera.rotation = Quaternion.Lerp(theCamera.rotation, cameraTrack.rotation, cameraSpeed * theTime);
+        if (hasPistol)
+        {
+            cameraTrack.gameObject.SetActive(false);
+            cameraWeaponTrack.gameObject.SetActive(true);
+
+            crosshair.gameObject.SetActive(true);
+
+            // Interpolación de posición y rotación para suavizar el movimiento de la cámara
+            theCamera.position = Vector3.Lerp(theCamera.position, cameraWeaponTrack.position, cameraSpeed * theTime);
+            theCamera.rotation = Quaternion.Lerp(theCamera.rotation, cameraWeaponTrack.rotation, cameraSpeed * theTime);
+        
+        }
+        else
+        {
+
+            cameraTrack.gameObject.SetActive(true);
+            cameraWeaponTrack.gameObject.SetActive(false);
+            // Interpolación de posición y rotación para suavizar el movimiento de la cámara
+            theCamera.position = Vector3.Lerp(theCamera.position, cameraTrack.position, cameraSpeed * theTime);
+            theCamera.rotation = Quaternion.Lerp(theCamera.rotation, cameraTrack.rotation, cameraSpeed * theTime);
+
+        }
+
     }
 
     public void AnimLogic()
@@ -109,6 +139,41 @@ public class playerMoveP : MonoBehaviour
         if (hasPistol)
         {
             playerAnim.SetLayerWeight(1, 1);
+        }
+    }
+
+    public void ItemLogic()
+    {
+        if (nearItem != null && Input.GetKeyDown(KeyCode.E))
+        {
+            GameObject instantiateItem = Instantiate(itemPrefab, itemSlot.position, itemSlot.rotation);
+
+            Destroy(nearItem.gameObject);
+
+            instantiateItem.transform.parent = itemSlot;
+
+            hasPistol = true;
+
+            nearItem = null;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Item"))
+        {
+            Debug.Log("Hay un item cerca!");
+            nearItem = other.gameObject;
+        }
+    }
+
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Item"))
+        {
+            Debug.Log("Ya no hay un item cerca!");
+            nearItem = other.gameObject;
         }
     }
 

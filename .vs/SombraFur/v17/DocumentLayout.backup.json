@@ -7,12 +7,16 @@
       "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\content\\script\\playermovep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\assets\\content\\script\\camaraperson.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\content\\script\\camaraperson.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|c:\\users\\mandi\\documents\\github\\sombrafur\\assets\\content\\script\\weaponcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\content\\script\\weaponcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\p.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\p.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|c:\\users\\mandi\\documents\\github\\sombrafur\\assets\\content\\script\\bulletcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\content\\script\\bulletcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\assets\\content\\script\\camaraperson.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\content\\script\\camaraperson.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,11 +26,33 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "BulletController.cs",
+              "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\BulletController.cs",
+              "RelativeDocumentMoniker": "Assets\\content\\Script\\BulletController.cs",
+              "ToolTip": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\BulletController.cs",
+              "RelativeToolTip": "Assets\\content\\Script\\BulletController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-31T07:02:22.026Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "WeaponController.cs",
+              "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\WeaponController.cs",
+              "RelativeDocumentMoniker": "Assets\\content\\Script\\WeaponController.cs",
+              "ToolTip": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\WeaponController.cs",
+              "RelativeToolTip": "Assets\\content\\Script\\WeaponController.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAgwCMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-31T07:02:17.326Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -36,14 +62,18 @@
               "RelativeDocumentMoniker": "Assets\\content\\Script\\playerMoveP.cs",
               "ToolTip": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\playerMoveP.cs",
               "RelativeToolTip": "Assets\\content\\Script\\playerMoveP.cs",
-              "ViewState": "AgIAAFQAAAAAAAAAAAAgwGEAAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAFMAAAAAAAAAAAAIwG4AAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-29T19:42:53.146Z",
               "EditorCaption": ""
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "camaraPerson.cs",
               "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\camaraPerson.cs",
               "RelativeDocumentMoniker": "Assets\\content\\Script\\camaraPerson.cs",
@@ -52,17 +82,6 @@
               "ViewState": "AgIAAA8AAAAAAAAAAAAkwBwAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-29T19:41:38.939Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "p.cs",
-              "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\p.cs",
-              "RelativeDocumentMoniker": "Assets\\p.cs",
-              "ToolTip": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\p.cs",
-              "RelativeToolTip": "Assets\\p.cs",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-29T19:09:54.613Z"
             }
           ]
         }

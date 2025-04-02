@@ -4,31 +4,39 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-
-    Rigidbody bulletRb;
-
-    public float bulletPower = 0f;
+    private Rigidbody bulletRb;
+    public float bulletPower = 10f;
     public float lifeTime = 4f;
 
-    private float time = 0f;
-
-
-    // Start is called before the first frame update
     void Start()
     {
         bulletRb = GetComponent<Rigidbody>();
+        bulletRb.velocity = transform.forward * bulletPower;
 
-        bulletRb.velocity = this.transform.forward * bulletPower;
+        // Destruir la bala automáticamente después del tiempo de vida
+        StartCoroutine(DestroyBullet());
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator DestroyBullet()
     {
-        time += Time.deltaTime;
+        yield return new WaitForSeconds(lifeTime);
+        DestroyBulletNow();
+    }
 
-        if (time > lifeTime)
+    private void OnCollisionEnter(Collision collision)
+    {
+        DestroyBulletNow();
+    }
+
+    private void DestroyBulletNow()
+    {
+        // Notifica al WeaponController que la bala ha sido destruida
+        GameObject weapon = FindObjectOfType<WeaponController>()?.gameObject;
+        if (weapon != null)
         {
-            Destroy(this.gameObject);
+            weapon.GetComponent<WeaponController>().BulletDestroyed();
         }
+
+        Destroy(gameObject);
     }
 }
