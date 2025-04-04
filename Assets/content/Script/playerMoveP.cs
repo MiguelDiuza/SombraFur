@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing; // Importar el espacio de nombres
 
 public class playerMoveP : MonoBehaviour
 {
@@ -36,6 +37,10 @@ public class playerMoveP : MonoBehaviour
 
     private bool isAiming = false;
 
+    // Post-Process para Apuntar
+    public PostProcessVolume aimPostProcessVolume;
+    public float aimPostProcessFadeDuration = 0.2f; // Tiempo para la transición del efecto al apuntar
+
     void Start()
     {
         playerTr = this.transform;
@@ -46,6 +51,16 @@ public class playerMoveP : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         cameraTrack.gameObject.SetActive(true);
         cameraWeaponTrack.gameObject.SetActive(false);
+
+        // Inicializar el PostProcessVolume de apuntar
+        if (aimPostProcessVolume != null)
+        {
+            aimPostProcessVolume.weight = 0f;
+        }
+        else
+        {
+            Debug.LogWarning("El PostProcessVolume para apuntar no ha sido asignado en el Inspector.");
+        }
     }
 
     void Update()
@@ -60,10 +75,12 @@ public class playerMoveP : MonoBehaviour
             if (Input.GetMouseButtonDown(1)) // Si presiona clic derecho
             {
                 playerAnim.SetBool("holdPistol", true); // Activar animación de apuntar
+                StartCoroutine(FadeAimPostProcess(0f, 1f)); // Activar efecto de la cámara al apuntar
             }
             else if (Input.GetMouseButtonUp(1)) // Si suelta el clic derecho
             {
                 playerAnim.SetBool("holdPistol", false); // Volver a animación normal
+                StartCoroutine(FadeAimPostProcess(1f, 0f)); // Desactivar efecto de la cámara al dejar de apuntar
             }
         }
 
@@ -154,6 +171,31 @@ public class playerMoveP : MonoBehaviour
         {
             Debug.Log("Ya no hay un item cerca!");
             nearItem = null;
+        }
+    }
+
+    IEnumerator FadeAimPostProcess(float startWeight, float endWeight)
+    {
+        float elapsedTime = 0f;
+        float currentWeight = startWeight;
+
+        while (elapsedTime < aimPostProcessFadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float newWeight = Mathf.Lerp(startWeight, endWeight, elapsedTime / aimPostProcessFadeDuration);
+
+            if (aimPostProcessVolume != null)
+            {
+                aimPostProcessVolume.weight = newWeight;
+            }
+
+            yield return null;
+        }
+
+        // Asegurar que el peso final sea exactamente el objetivo
+        if (aimPostProcessVolume != null)
+        {
+            aimPostProcessVolume.weight = endWeight;
         }
     }
 }
