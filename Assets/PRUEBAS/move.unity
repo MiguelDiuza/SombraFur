@@ -2434,6 +2434,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Surveillance Camera (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7602687890133055245, guid: 7ea0d7be2c297fb4c896f18f625115c9, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8449898304695652942, guid: 7ea0d7be2c297fb4c896f18f625115c9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 54.92
@@ -2444,7 +2448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8449898304695652942, guid: 7ea0d7be2c297fb4c896f18f625115c9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 15.42
+      value: 15.404
       objectReference: {fileID: 0}
     - target: {fileID: 8449898304695652942, guid: 7ea0d7be2c297fb4c896f18f625115c9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2580,7 +2584,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8966627916916610821, guid: 711016e15dc0bf14c91cd472ebddb879, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 33.73671
+      value: 33.51
       objectReference: {fileID: 0}
     - target: {fileID: 8966627916916610821, guid: 711016e15dc0bf14c91cd472ebddb879, type: 3}
       propertyPath: m_LocalPosition.y
