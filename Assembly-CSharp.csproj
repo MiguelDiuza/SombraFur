@@ -71,7 +71,10 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
     <Compile Include="Assets\content\Script\Sombra.cs" />
+    <Compile Include="Assets\SlimUI\Modern Menu 1\Scripts\Managers\UIMenuManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
+    <Compile Include="Assets\SlimUI\Modern Menu 1\Scripts\Misc\ResetDemo.cs" />
+    <Compile Include="Assets\SlimUI\Modern Menu 1\Scripts\ThemeEditor\ThemedUIElement.cs" />
     <Compile Include="Assets\SciFi Warehouse Kit\Demo\Scripts\PlayRandomSound.cs" />
     <Compile Include="Assets\content\Script\camaraMove.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
@@ -86,9 +89,13 @@
     <Compile Include="Assets\UnityTechnologies\EffectExamples\Shared\Scripts\ParticleMenu.cs" />
     <Compile Include="Assets\content\Script\camaraPerson.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
+    <Compile Include="Assets\SlimUI\Modern Menu 1\Scripts\Misc\ExtraLinks.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
+    <Compile Include="Assets\SlimUI\Modern Menu 1\Scripts\Managers\UISettingsManager.cs" />
+    <Compile Include="Assets\SlimUI\Modern Menu 1\Scripts\Audio\CheckSFXVolume.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
+    <Compile Include="Assets\SlimUI\Modern Menu 1\Scripts\ThemeEditor\ThemedUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
     <Compile Include="Assets\content\Script\BulletController.cs" />
@@ -101,6 +108,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
     <Compile Include="Assets\content\Script\playerMoveP.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
+    <Compile Include="Assets\SlimUI\Modern Menu 1\Scripts\ThemeEditor\ThemedUIData.cs" />
     <Compile Include="Assets\UnityTechnologies\EffectExamples\Shared\Scripts\GunShoot.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
@@ -108,6 +116,7 @@
     <Compile Include="Assets\UnityTechnologies\EffectExamples\Shared\Scripts\ParticleCollision.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\SciFi Warehouse Kit\Demo\Scripts\MouseComponent.cs" />
+    <Compile Include="Assets\SlimUI\Modern Menu 1\Scripts\Audio\CheckMusicVolume.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\content\Script\Detection.cs" />
     <Compile Include="Assets\UnityTechnologies\EffectExamples\Shared\Scripts\ExtinguishableFire.cs" />
