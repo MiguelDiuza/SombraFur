@@ -369,6 +369,7 @@
 "Assets/content/Script/Detection.cs"
 "Assets/content/Script/p.cs"
 "Assets/content/Script/playerMoveP.cs"
+"Assets/content/Script/sceneLoad.cs"
 "Assets/content/Script/Sombra.cs"
 "Assets/content/Script/WeaponController.cs"
 "Assets/SciFi Warehouse Kit/Demo/Scripts/LightFlicker.cs"
