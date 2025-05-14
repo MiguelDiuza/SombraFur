@@ -223,15 +223,15 @@ public class playerMoveP : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
-            Debug.Log("Ya no hay un item cerca!");
             nearItem = null;
         }
-        else if (other.CompareTag(stairsTag) && isOnStairs)
+        else if (other.CompareTag(stairsTag))
         {
             isOnStairs = false;
-            playerRb.useGravity = true; // Reactivar la gravedad al salir de la escalera
+            playerRb.useGravity = true;
         }
     }
+
 
     IEnumerator FadeAimPostProcess(float startWeight, float endWeight)
     {

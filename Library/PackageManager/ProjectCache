@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638797411332113727
-    m_Hash: 2506157073
+      ticks: 638827900372184190
+    m_Hash: 1325508068
   m_LockFileStatus:
     m_FilePath: C:/Users/mandi/Documents/GitHub/SombraFur/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638797411332113727
-    m_Hash: 2547630673
+      ticks: 638827900372238347
+    m_Hash: 2893488683
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
@@ -121,8 +121,12 @@ m_ResolvedPackages:
     - 2.5.2
     - 2.6.0
     - 2.7.1
+    - 2.8.1
+    - 2.8.2
     compatible:
     - 2.7.1
+    - 2.8.1
+    - 2.8.2
     recommended: 2.7.1
     deprecated: []
   dependencies: []
@@ -469,10 +473,12 @@ m_ResolvedPackages:
     - 3.0.31
     - 3.0.34
     - 3.0.35
+    - 3.0.36
     compatible:
     - 3.0.34
     - 3.0.35
-    recommended: 3.0.35
+    - 3.0.36
+    recommended: 3.0.36
     deprecated: []
   dependencies:
   - name: com.unity.ext.nunit
@@ -1154,12 +1160,12 @@ m_ResolvedPackages:
   isDeprecated: 0
   deprecationMessage: 
   fingerprint: 
-- packageId: com.unity.textmeshpro@3.0.7
+- packageId: com.unity.textmeshpro@3.0.9
   testable: 0
   isDirectDependency: 1
-  version: 3.0.7
+  version: 3.0.9
   source: 1
-  resolvedPath: C:\Users\mandi\Documents\GitHub\SombraFur\Library\PackageCache\com.unity.textmeshpro@3.0.7
+  resolvedPath: C:\Users\mandi\Documents\GitHub\SombraFur\Library\PackageCache\com.unity.textmeshpro@3.0.9
   assetPath: Packages/com.unity.textmeshpro
   name: com.unity.textmeshpro
   displayName: TextMeshPro
@@ -1336,13 +1342,13 @@ m_ResolvedPackages:
     configSource: 0
   hideInEditor: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 638410382150000000
+  datePublishedTicks: 638515173480000000
   documentationUrl: https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0/manual/index.html
   hasRepository: 1
   repository:
     type: git
     url: https://github.cds.internal.unity3d.com/unity/com.unity.textmeshpro.git
-    revision: 5c364f204e10eaec84fcbff640ad4d833774c1ed
+    revision: 0af193626b4f76795f7cb6c9b0f55389d0e4b1d6
     path: 
   unityLifecycle:
     version: 3.0.7
