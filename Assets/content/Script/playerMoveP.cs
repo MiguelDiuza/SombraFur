@@ -10,7 +10,7 @@ public class playerMoveP : MonoBehaviour
     Rigidbody playerRb;
     Animator playerAnim;
 
-    public float playerSpeed = 0f;
+    public float playerSpeed = 5f; // Ajusta la velocidad base
     public bool hasPistol = false;
     private Vector2 newDirection;
 
@@ -41,6 +41,12 @@ public class playerMoveP : MonoBehaviour
     public PostProcessVolume aimPostProcessVolume;
     public float aimPostProcessFadeDuration = 0.2f; // Tiempo para la transición del efecto al apuntar
 
+    [Header("Subir Escaleras")]
+    public float climbSpeed = 2f; // Velocidad de ascenso en la escalera
+    public float stepHeightThreshold = 0.5f; // Altura máxima del escalón que se puede subir
+    public string stairsTag = "Stairs"; // Etiqueta del objeto que representa la escalera
+    private bool isOnStairs = false;
+
     void Start()
     {
         playerTr = this.transform;
@@ -65,7 +71,6 @@ public class playerMoveP : MonoBehaviour
 
     void Update()
     {
-        MoveLogic();
         CameraLogic();
         AnimLogic();
         ItemLogic();
@@ -83,21 +88,65 @@ public class playerMoveP : MonoBehaviour
                 StartCoroutine(FadeAimPostProcess(1f, 0f)); // Desactivar efecto de la cámara al dejar de apuntar
             }
         }
+    }
 
+    void FixedUpdate()
+    {
+        MoveLogic(); // El movimiento basado en la física debe ir en FixedUpdate
     }
 
     public void MoveLogic()
     {
-        Vector3 direction = playerRb.velocity;
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
-        float theTime = Time.deltaTime;
+        float theTime = Time.fixedDeltaTime; // Usar Time.fixedDeltaTime para la física
 
         newDirection = new Vector2(moveX, moveZ);
         Vector3 side = playerSpeed * moveX * theTime * playerTr.right;
         Vector3 forward = playerSpeed * moveZ * theTime * playerTr.forward;
-        Vector3 endDirection = side + forward;
-        playerRb.velocity = endDirection;
+        Vector3 horizontalMovement = side + forward;
+        Vector3 verticalMovement = Vector3.zero;
+
+        if (isOnStairs)
+        {
+            // Anular la gravedad mientras está en las escaleras
+            playerRb.useGravity = false;
+            if (moveZ > 0) // Mover hacia adelante activa el ascenso
+            {
+                verticalMovement = Vector3.up * climbSpeed * theTime;
+                // Opcional: Añadir un pequeño movimiento hacia adelante para seguir la inclinación
+                // horizontalMovement += playerTr.forward * climbSpeed * 0.2f * theTime;
+            }
+            else if (moveZ < 0) // Mover hacia atrás para descender (opcional)
+            {
+                verticalMovement = Vector3.down * climbSpeed * theTime;
+                // horizontalMovement -= playerTr.forward * climbSpeed * 0.2f * theTime;
+            }
+            playerRb.velocity = horizontalMovement + verticalMovement;
+        }
+        else
+        {
+            playerRb.useGravity = true;
+            playerRb.velocity = horizontalMovement + Vector3.up * playerRb.velocity.y; // Mantener la velocidad vertical
+        }
+
+        // Intento de subir escalones más altos automáticamente
+        if (!isOnStairs && moveZ > 0 && playerRb.velocity.y < 0.1f) // Si se mueve hacia adelante y está cerca del suelo
+        {
+            RaycastHit hit;
+            Vector3 origin = transform.position + Vector3.up * 0.1f; // Raycast desde un poco arriba del pie
+            if (Physics.Raycast(origin, transform.forward, out hit, 0.6f)) // Detecta si hay algo enfrente
+            {
+                Vector3 stepCheckOrigin = transform.position + Vector3.up * 0.2f + transform.forward * 0.4f;
+                RaycastHit stepHit;
+                if (!Physics.Raycast(stepCheckOrigin, Vector3.down, out stepHit, stepHeightThreshold))
+                {
+                    // No hay suelo directamente enfrente a una altura baja, podría ser un escalón
+                    Vector3 liftVelocity = Vector3.up * 2f; // Pequeño impulso hacia arriba
+                    playerRb.velocity += liftVelocity;
+                }
+            }
+        }
     }
 
     public void CameraLogic()
@@ -163,6 +212,11 @@ public class playerMoveP : MonoBehaviour
             Debug.Log("Hay un item cerca! tomalo con la tecla (E)");
             nearItem = other.gameObject;
         }
+        else if (other.CompareTag(stairsTag) && !isOnStairs)
+        {
+            isOnStairs = true;
+            playerRb.velocity = Vector3.zero; // Detener cualquier movimiento al entrar a la escalera
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -171,6 +225,11 @@ public class playerMoveP : MonoBehaviour
         {
             Debug.Log("Ya no hay un item cerca!");
             nearItem = null;
+        }
+        else if (other.CompareTag(stairsTag) && isOnStairs)
+        {
+            isOnStairs = false;
+            playerRb.useGravity = true; // Reactivar la gravedad al salir de la escalera
         }
     }
 

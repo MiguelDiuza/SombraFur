@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CamaraMove : MonoBehaviour
 {
-    public float rotationSpeed = 30f; // Velocidad de giro
+    public float rotationSpeed = 30f; // Velocidad de giro (grados por segundo)
     public float maxRotation = 45f; // Límite del giro en cada dirección
     public float pauseDuration = 2f; // Tiempo de pausa en cada extremo
     public float lookDownDuration = 1f; // Tiempo de la animación de mirar hacia abajo
@@ -44,6 +44,7 @@ public class CamaraMove : MonoBehaviour
         {
             if (!isPaused)
             {
+                // Multiplicar por Time.deltaTime para hacer la velocidad independiente del frame rate
                 float rotationStep = rotationSpeed * Time.deltaTime * direction;
                 currentRotation += rotationStep;
                 transform.Rotate(Vector3.up, rotationStep);
@@ -84,7 +85,7 @@ public class CamaraMove : MonoBehaviour
             hasCollided = true;
             StopAllCoroutines();
             isPaused = true;
-            rotationSpeed = 0;
+            rotationSpeed = 0; // Detener la rotación automática
 
             isLookingDown = true;
             lookDownStartTime = Time.time;
