@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638827900372184190
-    m_Hash: 1325508068
+      ticks: 638828340201750046
+    m_Hash: 2701179100
   m_LockFileStatus:
     m_FilePath: C:/Users/mandi/Documents/GitHub/SombraFur/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638827900372238347
-    m_Hash: 2893488683
+      ticks: 638828340201770169
+    m_Hash: 1119080036
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:

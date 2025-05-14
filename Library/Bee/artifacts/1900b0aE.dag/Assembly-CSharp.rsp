@@ -369,6 +369,7 @@
 "Assets/content/Script/BulletController.cs"
 "Assets/content/Script/camaraMove.cs"
 "Assets/content/Script/camaraPerson.cs"
+"Assets/content/Script/ConsoleToTMP.cs"
 "Assets/content/Script/Detection.cs"
 "Assets/content/Script/Inventario.cs"
 "Assets/content/Script/ObjectThrower.cs"

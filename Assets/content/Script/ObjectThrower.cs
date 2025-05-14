@@ -44,7 +44,7 @@ public class ObjectThrower : MonoBehaviour
 
             isThrowingEnabled = !isThrowingEnabled;
 
-            Debug.Log("Lanzamiento activado: " + isThrowingEnabled);
+            Debug.Log("puedes lanzar latas: " + isThrowingEnabled);
 
             // Opcional: Aquí podrías activar/desactivar algún indicador visual
 
