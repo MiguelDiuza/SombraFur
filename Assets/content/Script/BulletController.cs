@@ -7,21 +7,27 @@ public class BulletController : MonoBehaviour
     private Rigidbody bulletRb;
     public float bulletPower = 10f;
     public float lifeTime = 4f;
-    public GameObject bulletEffectPrefab; // Prefab del efecto de partículas para la bala
+
+    public GameObject bulletEffectPrefab;     // Efecto al disparar la bala
+    // Ya no necesitamos estas referencias aquí, el EnemyHitHandler las tiene
+    // public GameObject bloodImpactEffect;       // Efecto de sangre (impacto)
+    // public GameObject bloodSprayEffect;         // Efecto de sangre (chorrito)
+
+    private bool hasHitEnemy = false; // Nueva variable para controlar si ya golpeó al enemigo
 
     void Start()
     {
         bulletRb = GetComponent<Rigidbody>();
         bulletRb.velocity = transform.forward * bulletPower;
 
-        // Generar efecto de partículas al disparar
+        // Efecto visual al salir la bala
         if (bulletEffectPrefab != null)
         {
             GameObject bulletEffect = Instantiate(bulletEffectPrefab, transform.position, Quaternion.identity);
-            Destroy(bulletEffect, 0.5f); // Destruir el efecto después de 2 segundos
+            Destroy(bulletEffect, 0.5f);
         }
 
-        // Destruir la bala automáticamente después del tiempo de vida
+        // Destruir la bala después de un tiempo
         StartCoroutine(DestroyBullet());
     }
 
@@ -31,14 +37,38 @@ public class BulletController : MonoBehaviour
         DestroyBulletNow();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        DestroyBulletNow();
+        if (other.CompareTag("enemy") && !hasHitEnemy)
+        {
+            hasHitEnemy = true; // Marca que ya golpeó al enemigo
+            EnemyHitHandler hitHandler = other.GetComponent<EnemyHitHandler>();
+            if (hitHandler != null)
+            {
+                // Calculamos el punto de impacto más cercano
+                Vector3 hitPoint = other.ClosestPoint(transform.position);
+                Vector3 hitNormal = -transform.forward;
+
+                hitHandler.HandleHit(hitPoint, hitNormal);
+
+                // ¡No destruyas la bala aquí inmediatamente!
+                // DestroyBulletNow();
+            }
+            else
+            {
+                // Si no hay EnemyHitHandler, destruye la bala
+                DestroyBulletNow();
+            }
+        }
+        // Si golpea algo más que no es el enemigo, destruye la bala inmediatamente
+        else if (!other.CompareTag("Player") && !other.CompareTag("Untagged") && !other.CompareTag("enemy"))
+        {
+            DestroyBulletNow();
+        }
     }
 
     private void DestroyBulletNow()
     {
-        // Notifica al WeaponController que la bala ha sido destruida
         GameObject weapon = FindObjectOfType<WeaponController>()?.gameObject;
         if (weapon != null)
         {

@@ -1,22 +1,29 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 
 public class CamaraMove : MonoBehaviour
 {
-    public float rotationSpeed = 30f; // Velocidad de giro (grados por segundo)
-    public float maxRotation = 45f; // Límite del giro en cada dirección
-    public float pauseDuration = 2f; // Tiempo de pausa en cada extremo
-    public float lookDownDuration = 1f; // Tiempo de la animación de mirar hacia abajo
-    public GameObject particleEffectPrefab; // Prefab del efecto de partículas
-    public GameObject additionalEffect1; // Primer efecto adicional
-    public GameObject additionalEffect2; // Segundo efecto adicional
+
+    [Header("Sonidos CÃ¡mara")]
+    public AudioClip sonidoBom;
+    public AudioClip sonidoChispas;
+
+    public float rotationSpeed = 30f;
+    public float maxRotation = 45f;
+    public float pauseDuration = 2f;
+    public float lookDownDuration = 1f;
+    public GameObject detectorObject;
+    public GameObject particleEffectPrefab;
+    public GameObject additionalEffect1;
+    public GameObject additionalEffect2;
+    public GameObject objetoAActivar;
 
     private float currentRotation = 0f;
     private int direction = 1;
     private bool isPaused = false;
-    private bool hasCollided = false; // Evita repeticiones
+    private bool hasCollided = false;
     private Quaternion targetRotation;
-    private bool isLookingDown = false; // Controla la animación de mirar abajo
+    private bool isLookingDown = false;
     private float lookDownStartTime;
     private GameObject instantiatedEffect1;
     private GameObject instantiatedEffect2;
@@ -44,7 +51,6 @@ public class CamaraMove : MonoBehaviour
         {
             if (!isPaused)
             {
-                // Multiplicar por Time.deltaTime para hacer la velocidad independiente del frame rate
                 float rotationStep = rotationSpeed * Time.deltaTime * direction;
                 currentRotation += rotationStep;
                 transform.Rotate(Vector3.up, rotationStep);
@@ -67,6 +73,7 @@ public class CamaraMove : MonoBehaviour
                 transform.rotation = targetRotation;
                 isLookingDown = false;
             }
+            
         }
     }
 
@@ -85,7 +92,12 @@ public class CamaraMove : MonoBehaviour
             hasCollided = true;
             StopAllCoroutines();
             isPaused = true;
-            rotationSpeed = 0; // Detener la rotación automática
+            rotationSpeed = 0;
+
+            if (detectorObject != null)
+            {
+                detectorObject.SetActive(false);
+            }
 
             isLookingDown = true;
             lookDownStartTime = Time.time;
@@ -105,6 +117,23 @@ public class CamaraMove : MonoBehaviour
             {
                 instantiatedEffect2.SetActive(true);
             }
+
+            if (objetoAActivar != null)
+            {
+                objetoAActivar.SetActive(true);
+                StartCoroutine(DesactivarObjeto(5f)); // Llama a la corrutina para desactivar despuÃ©s de 5 segundos
+            }
+            SendMessage("PlayClip", sonidoBom, SendMessageOptions.DontRequireReceiver);
+            SendMessage("PlayClip", sonidoChispas, SendMessageOptions.DontRequireReceiver);
+        }
+    }
+
+    IEnumerator DesactivarObjeto(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (objetoAActivar != null)
+        {
+            objetoAActivar.SetActive(false);
         }
     }
 }

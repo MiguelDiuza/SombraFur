@@ -7,17 +7,21 @@ TagManager:
   - Bala
   - Lata
   - Stairs
+  - ruido
+  - BalaItem
+  - ruidoBox
+  - enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PlayerObj
   - Water
   - UI
   - Item
   - Dark
   - Apuntar
-  - 
+  - Ground
   - 
   - 
   - 

@@ -2,16 +2,22 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
+
+    public AudioClip sonidoSilenciador;
+
     public Transform shootSpawn;
     public GameObject bulletPrefab;
     private GameObject currentBullet;
     private float fireRate = 0.5f;
     private float nextFireTime = 0f;
 
+
     private Inventario inventory;
 
     void Start()
     {
+
+
         inventory = GameObject.FindWithTag("Player").GetComponent<Inventario>();
         if (inventory == null)
         {
@@ -44,6 +50,7 @@ public class WeaponController : MonoBehaviour
             {
                 nextFireTime = Time.time + fireRate;
                 Shoot();
+                SendMessage("PlayClip", sonidoSilenciador, SendMessageOptions.DontRequireReceiver);
             }
             else
             {
@@ -55,7 +62,9 @@ public class WeaponController : MonoBehaviour
     void Shoot()
     {
         currentBullet = Instantiate(bulletPrefab, shootSpawn.position, shootSpawn.rotation);
+
     }
+
 
     public void BulletDestroyed()
     {

@@ -14,7 +14,7 @@ public class RecolectarObjetos : MonoBehaviour
     {
         if (objetoCercano != null && Input.GetKeyDown(KeyCode.E))
         {
-            if (objetoCercano.CompareTag("Bala"))
+            if (objetoCercano.CompareTag("BalaItem"))
             {
                 inventario.AgregarBalas(3);
             }
@@ -30,7 +30,7 @@ public class RecolectarObjetos : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Bala") || other.CompareTag("Lata"))
+        if (other.CompareTag("BalaItem") || other.CompareTag("Lata"))
         {
             objetoCercano = other.gameObject;
         }
