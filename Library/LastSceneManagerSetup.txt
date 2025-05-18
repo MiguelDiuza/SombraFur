@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/PRUEBAS/move.unity
+- path: Assets/PRUEBAS/move 1.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
