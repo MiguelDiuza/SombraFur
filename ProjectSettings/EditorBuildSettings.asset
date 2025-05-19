@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Inicio.unity
     guid: 3b84a4fa14d30264ba4cca6101c95462
   - enabled: 1
-    path: Assets/PRUEBAS/move.unity
-    guid: 8bbfbceef4cbe954086f7ec171f188bd
+    path: Assets/PRUEBAS/Nivel1.unity
+    guid: e557b9651d7575e49a81330dc230e400
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: 24e729a1ba972514eaff33441c28caff
   m_configObjects: {}

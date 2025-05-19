@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-
     public AudioClip sonidoSilenciador;
+    public AudioClip sonidoSinBalas; // NUEVO
+    public AudioSource audioSource;  // NUEVO
+    private float nextDryFireTime = 1f; // NUEVO
+
 
     public Transform shootSpawn;
     public GameObject bulletPrefab;
@@ -11,17 +14,23 @@ public class WeaponController : MonoBehaviour
     private float fireRate = 0.5f;
     private float nextFireTime = 0f;
 
-
     private Inventario inventory;
 
     void Start()
     {
-
-
         inventory = GameObject.FindWithTag("Player").GetComponent<Inventario>();
         if (inventory == null)
         {
             Debug.LogWarning("Inventario no encontrado en el jugador.");
+        }
+
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                Debug.LogWarning("No se encontró AudioSource en el objeto.");
+            }
         }
     }
 
@@ -51,20 +60,32 @@ public class WeaponController : MonoBehaviour
                 nextFireTime = Time.time + fireRate;
                 Shoot();
                 SendMessage("PlayClip", sonidoSilenciador, SendMessageOptions.DontRequireReceiver);
+
+                if (audioSource && sonidoSilenciador)
+                {
+                    audioSource.PlayOneShot(sonidoSilenciador);
+                }
             }
             else
             {
                 Debug.Log("No hay balas en el inventario");
+                if (Time.time >= nextDryFireTime)
+                {
+                    if (audioSource && sonidoSinBalas)
+                    {
+                        audioSource.PlayOneShot(sonidoSinBalas);
+                    }
+                    nextDryFireTime = Time.time + fireRate; // Espera el mismo tiempo que un disparo normal
+                }
             }
+
         }
     }
 
     void Shoot()
     {
         currentBullet = Instantiate(bulletPrefab, shootSpawn.position, shootSpawn.rotation);
-
     }
-
 
     public void BulletDestroyed()
     {

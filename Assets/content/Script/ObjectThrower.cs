@@ -1,347 +1,181 @@
 using UnityEngine;
 
-using System.Collections;
-
-
-
 public class ObjectThrower : MonoBehaviour
-
 {
+    [Header("Configuración del Lanzamiento")]
+    public Transform puntoLanzamiento;
+    public GameObject prefabLata;
+    public float velocidadLanzamiento = 25f;
+    [Range(0f, 90f)]
+    public float anguloMaximoVertical = 80f; // Límite superior del ángulo de lanzamiento
+    [Range(0f, 90f)]
+    public float anguloMinimoVertical = -80f; // Límite inferior del ángulo de lanzamiento
+    public int puntosTrayectoria = 30; // Número de puntos para la trayectoria
+    public float tiempoEntrePuntos = 0.1f; // Tiempo entre cada punto de la trayectoria
+    [Range(0f, 90f)]
+    public float anguloMaximoVisionVertical = 85f; // Ángulo máximo de la cámara hacia arriba para permitir lanzamiento
 
-    public Transform throwOrigin; // El punto desde donde se lanza la lata (ej: la mano del personaje)
+    [Header("Referencias")]
+    public Animator animator;
+    public Inventario inventario;
+    public LineRenderer lineaTrayectoria;
+    public Camera camaraPrincipal; // Referencia a la cámara principal
 
-    public GameObject canPrefab; // Prefab de la lata
+    private bool modoLanzamiento = false;
 
-    public float throwSpeed = 10f;
+    void Start()
+    {
+        // Asegurarse de que el LineRenderer esté presente
+        if (lineaTrayectoria == null)
+        {
+            Debug.LogError("¡LineRenderer no asignado al ObjectThrower!");
+            enabled = false; // Desactivar el script si falta el LineRenderer
+        }
+        lineaTrayectoria.enabled = false; // Inicialmente la trayectoria no se muestra
 
-    public float arcHeight = 2f; // Altura máxima de la parábola
-
-    public Animator animator; // Asigna el Animator del jugador
-
-    public LineRenderer trajectoryRenderer; // Para visualizar la parábola
-
-    public int trajectoryPoints = 30; // Número de puntos para la parábola
-
-    public float trajectoryTimeStep = 0.1f; // Intervalo de tiempo entre puntos
-
-
-
-    private bool isThrowingEnabled = false;
-
-    private bool isAiming = false;
-
-
+        // Asegurarse de que la cámara principal esté asignada
+        if (camaraPrincipal == null)
+        {
+            camaraPrincipal = Camera.main;
+            if (camaraPrincipal == null)
+            {
+                Debug.LogError("¡Cámara principal no encontrada! Asigna una cámara al ObjectThrower.");
+                enabled = false; // Desactivar si no se encuentra la cámara
+            }
+        }
+    }
 
     void Update()
-
     {
-
-        // Activar/Desactivar el lanzamiento con la tecla 2
-
+        // Activar modo lanzamiento con la tecla 2
         if (Input.GetKeyDown(KeyCode.Alpha2))
-
         {
-
-            isThrowingEnabled = !isThrowingEnabled;
-
-            Debug.Log("puedes lanzar latas: " + isThrowingEnabled);
-
-            // Opcional: Aquí podrías activar/desactivar algún indicador visual
-
+            modoLanzamiento = true;
+            Debug.Log("Modo lanzamiento ACTIVADO");
         }
 
-
-
-        // Apuntar (opcional, puedes lanzar directamente al hacer clic si lo prefieres)
-
-        if (isThrowingEnabled)
-
-        {
-
-            if (Input.GetMouseButton(1))
-
-            {
-
-                isAiming = true;
-
-                UpdateTrajectory(); // Mostrar la trayectoria mientras se apunta
-
-            }
-
-            else
-
-            {
-
-                isAiming = false;
-
-                trajectoryRenderer.positionCount = 0; // Ocultar la trayectoria
-
-            }
-
-
-
-            // Lanzar con clic izquierdo
-
-            if (Input.GetMouseButtonDown(0) && isAiming && !IsInvoking("PerformThrow"))
-
-            {
-
-                RaycastHit hit;
-
-                Vector3 targetPoint;
-
-                if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit))
-
-                {
-
-                    targetPoint = hit.point;
-
-                }
-
-                else
-
-                {
-
-                    targetPoint = Camera.main.transform.position + Camera.main.transform.forward * 10f; // Punto lejano por defecto
-
-                }
-
-
-
-                animator.SetBool("lanzarSi", true); // Activa animación
-
-                Invoke("PerformThrow", 0.2f); // Llama a PerformThrow después de un pequeño retardo para sincronizar con la animación
-
-                StartCoroutine(ResetThrowAnimation());
-
-                StartCoroutine(ThrowCan(targetPoint));
-
-            }
-
-        }
-
-
-
-        // Desactivar el lanzamiento con la tecla 1
-
+        // Desactivar modo lanzamiento con la tecla 1
         if (Input.GetKeyDown(KeyCode.Alpha1))
-
         {
-
-            isThrowingEnabled = false;
-
-            isAiming = false;
-
-            trajectoryRenderer.positionCount = 0;
-
-            Debug.Log("Lanzamiento desactivado.");
-
-            // Opcional: Aquí podrías desactivar el indicador visual
-
+            modoLanzamiento = false;
+            lineaTrayectoria.enabled = false; // Ocultar la trayectoria al desactivar el modo
+            Debug.Log("Modo lanzamiento DESACTIVADO");
         }
 
+        // Si está activado el modo de lanzamiento
+        if (modoLanzamiento)
+        {
+            // Verificar el ángulo de la cámara
+            float anguloCamaraVertical = Vector3.Dot(camaraPrincipal.transform.forward, Vector3.up);
+
+            // Si la cámara está mirando demasiado hacia arriba, ocultar la trayectoria y no permitir el lanzamiento
+            if (anguloCamaraVertical > Mathf.Sin(anguloMaximoVisionVertical * Mathf.Deg2Rad))
+            {
+                lineaTrayectoria.enabled = false;
+                return; // Salir del Update para no permitir el lanzamiento
+            }
+            else
+            {
+                lineaTrayectoria.enabled = true; // Mostrar la trayectoria si la cámara está dentro del ángulo permitido
+            }
+
+            // Calcular dirección hacia donde apunta el mouse
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Vector3 destino;
+
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                destino = hit.point;
+            }
+            else
+            {
+                destino = ray.GetPoint(100f); // punto lejano
+            }
+
+            // Calcular la dirección de lanzamiento
+            Vector3 direccion = (destino - puntoLanzamiento.position).normalized;
+
+            // Limitar el ángulo vertical del lanzamiento
+            Vector3 planoHorizontal = Vector3.ProjectOnPlane(direccion, Vector3.up).normalized;
+            float anguloVertical = Vector3.Angle(planoHorizontal, direccion);
+
+            // Ajustar la dirección si el ángulo vertical excede los límites
+            if (Vector3.Dot(Vector3.up, direccion) > 0) // Si la dirección es hacia arriba
+            {
+                if (anguloVertical > anguloMaximoVertical)
+                {
+                    direccion = Quaternion.AngleAxis(anguloMaximoVertical - anguloVertical, Vector3.Cross(planoHorizontal, direccion)) * direccion;
+                }
+            }
+            else // Si la dirección es hacia abajo
+            {
+                if (anguloVertical > -anguloMinimoVertical)
+                {
+                    direccion = Quaternion.AngleAxis(-anguloMinimoVertical - anguloVertical, Vector3.Cross(planoHorizontal, direccion)) * direccion;
+                }
+            }
+
+            // Actualizar la visualización de la trayectoria
+            ActualizarTrayectoria(direccion);
+
+            // Al hacer clic izquierdo, intenta lanzar si hay latas
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (inventario.GetLatas() > 0)
+                {
+                    StartCoroutine(LanzarLata(direccion)); // Pasar la dirección limitada al lanzamiento
+                }
+                else
+                {
+                    Debug.Log("No tienes latas disponibles.");
+                }
+            }
+        }
     }
 
-
-
-    void PerformThrow()
-
+    void ActualizarTrayectoria(Vector3 direccion)
     {
+        lineaTrayectoria.positionCount = puntosTrayectoria;
+        Vector3 puntoInicial = puntoLanzamiento.position;
+        Vector3 velocidadInicial = direccion * velocidadLanzamiento;
 
-        // Esta función se llama mediante Invoke para sincronizar con la animación
-
+        for (int i = 0; i < puntosTrayectoria; i++)
+        {
+            float tiempo = i * tiempoEntrePuntos;
+            Vector3 punto = CalcularPuntoTrayectoria(puntoInicial, velocidadInicial, tiempo);
+            lineaTrayectoria.SetPosition(i, punto);
+        }
     }
 
-
-
-    System.Collections.IEnumerator ResetThrowAnimation()
-
+    Vector3 CalcularPuntoTrayectoria(Vector3 posicionInicial, Vector3 velocidadInicial, float tiempo)
     {
-
-        yield return new WaitForSeconds(1f); // Ajusta la duración según tu animación
-
-        animator.SetBool("lanzarSi", false);
-
+        // Ecuación de movimiento parabólico: posición final = posición inicial + velocidad inicial * tiempo + 0.5 * gravedad * tiempo^2
+        return posicionInicial + velocidadInicial * tiempo + 0.5f * Physics.gravity * tiempo * tiempo;
     }
 
-
-
-    System.Collections.IEnumerator ThrowCan(Vector3 target)
-
+    System.Collections.IEnumerator LanzarLata(Vector3 direccionLanzamiento)
     {
+        // Ejecutar animación de lanzar
+        animator.SetTrigger("throw");
+        animator.SetBool("lanzarSi", true);
 
-        // Espera pequeña para que coincida con el lanzamiento en la animación (ajusta si es necesario)
+        // Esperar que inicie la animación
+        yield return new WaitForSeconds(0.2f);
 
-        yield return new WaitForSeconds(0.3f); // Ajusta este valor para sincronizar con el frame de lanzamiento
-
-
-
-        GameObject can = Instantiate(canPrefab, throwOrigin.position, Quaternion.identity);
-
-        Rigidbody rb = can.GetComponent<Rigidbody>();
-
-
+        // Instanciar y lanzar la lata usando la dirección limitada
+        GameObject lata = Instantiate(prefabLata, puntoLanzamiento.position, Quaternion.identity);
+        Rigidbody rb = lata.GetComponent<Rigidbody>();
 
         if (rb != null)
-
         {
-
-            Vector3 velocity = CalculateParabolicVelocity(throwOrigin.position, target, arcHeight);
-
-            rb.velocity = velocity;
-
+            rb.velocity = direccionLanzamiento * velocidadLanzamiento;
         }
 
+        // Restar una lata del inventario
+        inventario.AgregarLatas(-1);
+
+        // Finalizar animación
+        yield return new WaitForSeconds(0.5f);
+        animator.SetBool("lanzarSi", false);
     }
-
-
-
-    /// <summary>
-
-    /// Calcula la velocidad inicial necesaria para lanzar un objeto de A a B con una parábola que alcanza cierta altura.
-
-    /// </summary>
-
-    Vector3 CalculateParabolicVelocity(Vector3 start, Vector3 end, float height)
-
-    {
-
-        float gravity = Mathf.Abs(Physics.gravity.y);
-
-
-
-        // Dirección horizontal (XZ)
-
-        Vector3 horizontal = new Vector3(end.x - start.x, 0, end.z - start.z);
-
-        float horizontalDistance = horizontal.magnitude;
-
-
-
-        // Altura entre puntos
-
-        float verticalDistance = end.y - start.y;
-
-
-
-        float timeUp = Mathf.Sqrt(2 * height / gravity);
-
-        float timeDown = Mathf.Sqrt(2 * (height - verticalDistance) / gravity);
-
-        float totalTime = timeUp + timeDown;
-
-
-
-        Vector3 velocityY = Vector3.up * Mathf.Sqrt(2 * gravity * height);
-
-        Vector3 velocityXZ = horizontal / totalTime;
-
-
-
-        return velocityXZ + velocityY;
-
-    }
-
-
-
-    void UpdateTrajectory()
-
-    {
-
-        if (!isThrowingEnabled || !isAiming)
-
-        {
-
-            trajectoryRenderer.positionCount = 0;
-
-            return;
-
-        }
-
-
-
-        trajectoryRenderer.positionCount = trajectoryPoints;
-
-        Vector3 targetPoint;
-
-        RaycastHit hit;
-
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit))
-
-        {
-
-            targetPoint = hit.point;
-
-        }
-
-        else
-
-        {
-
-            targetPoint = Camera.main.transform.position + Camera.main.transform.forward * 10f;
-
-        }
-
-
-
-        for (int i = 0; i < trajectoryPoints; i++)
-
-        {
-
-            float time = i * trajectoryTimeStep;
-
-            Vector3 position = CalculateParabolicPoint(throwOrigin.position, targetPoint, arcHeight, time);
-
-            trajectoryRenderer.SetPosition(i, position);
-
-        }
-
-    }
-
-
-
-    Vector3 CalculateParabolicPoint(Vector3 start, Vector3 end, float height, float time)
-
-    {
-
-        float gravity = Mathf.Abs(Physics.gravity.y);
-
-        Vector3 horizontal = new Vector3(end.x - start.x, 0, end.z - start.z);
-
-        float distance = horizontal.magnitude;
-
-        float totalTime = Mathf.Sqrt(2 * height / gravity) + Mathf.Sqrt(2 * Mathf.Abs(height - (end.y - start.y)) / gravity);
-
-
-
-        if (totalTime <= 0) return start; // Evitar división por cero
-
-
-
-        float normalizedTime = time / totalTime;
-
-        Vector3 point = Vector3.Lerp(start, end, normalizedTime);
-
-        point.y = ParabolaEquation(start.y, end.y, height, normalizedTime);
-
-        return point;
-
-    }
-
-
-
-    float ParabolaEquation(float y0, float y1, float h, float t)
-
-    {
-
-        float a = -4 * h / 1;
-
-        float b = 4 * h;
-
-        float c = y0;
-
-        return a * t * t + b * t + c;
-
-    }
-
 }

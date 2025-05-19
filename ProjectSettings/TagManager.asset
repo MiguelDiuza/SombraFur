@@ -11,6 +11,8 @@ TagManager:
   - BalaItem
   - ruidoBox
   - enemy
+  - Sombra
+  - Electric
   layers:
   - Default
   - TransparentFX
@@ -22,7 +24,7 @@ TagManager:
   - Dark
   - Apuntar
   - Ground
-  - 
+  - dead
   - 
   - 
   - 

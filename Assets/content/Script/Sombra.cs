@@ -13,6 +13,11 @@ public class Sombra : MonoBehaviour
     private Material[] originalMaterials; // Guardamos los materiales originales
     private ParticleSystem activeParticles; // Partículas activas
 
+
+    private bool puedeEntrarEnSombra = true; // NUEVO: Bandera para controlar el cooldown
+    public float cooldownDuracion = 5f; // Duración del cooldown en segundos
+
+
     // Referencia al Animator del personaje
     public Animator animator;
     private const string SombraParameterName = "sombraP"; // Nombre del parámetro en el Animator
@@ -21,19 +26,22 @@ public class Sombra : MonoBehaviour
     public PostProcessVolume darkPostProcessVolume;
     public float postProcessFadeDuration = 0.5f; // Tiempo para la transición del efecto de la cámara
 
-    // Nuevo: Referencia al objeto de la barra de la UI
-    public Image barraUI; // Asigna este objeto en el Inspector
+    // Nuevo: Referencias a la barra de duración del modo sombra
+    public Image barraDuracionSombraUI; // Asigna este objeto en el Inspector
+    public TMP_Text contadorDuracionSombraTMP; // Asigna este objeto en el Inspector (opcional)
 
-    // Nuevo: Referencia al TextMeshPro para el contador
-    public TMP_Text contadorTMP; // Asigna este objeto en el Inspector (opcional)
+    // Nuevo: Referencias a la barra de cooldown
+    public Image barraCooldownUI; // Asigna este objeto en el Inspector
+    public TMP_Text contadorCooldownTMP; // Asigna este objeto en el Inspector (opcional)
 
     // Nuevo: Duración total del modo sombra en segundos
-    private const float duracionModoSombra = 4f;
+    private const float duracionModoSombra = 5f; // ¡Recordatorio: esta es la duración del modo sombra!
 
     // Nuevo: Tiempo restante en modo sombra
     private float tiempoRestanteEnSombra;
 
     private Coroutine modoSombraCoroutine;
+    private Coroutine cooldownCoroutine;
 
     void Start()
     {
@@ -57,23 +65,40 @@ public class Sombra : MonoBehaviour
             darkPostProcessVolume.weight = 0f;
         }
 
-        // Nuevo: Asegurarse de que la referencia a la barra de la UI esté asignada
-        if (barraUI == null)
+        // Nuevo: Asegurarse de que las referencias a las barras de UI estén asignadas
+        if (barraDuracionSombraUI == null)
         {
-            Debug.LogError("La barra de la UI no ha sido asignada en el Inspector.");
+            Debug.LogError("La barra de duración del modo sombra de la UI no ha sido asignada en el Inspector.");
+        }
+        else
+        {
+            barraDuracionSombraUI.gameObject.SetActive(false); // Inicialmente oculta
         }
 
-        // Nuevo: Inicialmente ocultar la barra y el contador
-        barraUI.gameObject.SetActive(false);
-        if (contadorTMP != null)
+        if (barraCooldownUI == null)
         {
-            contadorTMP.gameObject.SetActive(false);
+            Debug.LogError("La barra de cooldown de la UI no ha sido asignada en el Inspector.");
+        }
+        else
+        {
+            barraCooldownUI.gameObject.SetActive(false); // Inicialmente oculta
+        }
+
+        // Nuevo: Inicialmente ocultar los contadores de texto si están asignados
+        if (contadorDuracionSombraTMP != null)
+        {
+            contadorDuracionSombraTMP.gameObject.SetActive(false);
+        }
+
+        if (contadorCooldownTMP != null)
+        {
+            contadorCooldownTMP.gameObject.SetActive(false);
         }
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && !isShadowMode)
+        if (Input.GetKeyDown(KeyCode.Q) && !isShadowMode && puedeEntrarEnSombra)
         {
             modoSombraCoroutine = StartCoroutine(ActivarModoSombra());
         }
@@ -84,10 +109,52 @@ public class Sombra : MonoBehaviour
         }
     }
 
+    IEnumerator CooldownModoSombra()
+    {
+        puedeEntrarEnSombra = false; // Desactivar la entrada al modo sombra
+
+        float cooldownRestante = cooldownDuracion;
+
+        // Mostrar barra de cooldown
+        barraCooldownUI.gameObject.SetActive(true);
+        barraCooldownUI.fillAmount = 0f;
+        if (contadorCooldownTMP != null)
+        {
+            contadorCooldownTMP.gameObject.SetActive(true);
+        }
+
+        while (cooldownRestante > 0f)
+        {
+            cooldownRestante -= Time.deltaTime;
+
+            // Actualizar barra y contador progresivamente
+            barraCooldownUI.fillAmount = 1f - (cooldownRestante / cooldownDuracion);
+            if (contadorCooldownTMP != null)
+            {
+                contadorCooldownTMP.text = Mathf.CeilToInt(cooldownRestante).ToString();
+            }
+
+            yield return null;
+        }
+
+        // Cooldown finalizado
+        barraCooldownUI.gameObject.SetActive(false);
+        if (contadorCooldownTMP != null)
+        {
+            contadorCooldownTMP.gameObject.SetActive(false);
+        }
+
+        puedeEntrarEnSombra = true; // NUEVO: permitir volver a entrar en modo sombra
+        cooldownCoroutine = null; // Limpiar la referencia al coroutine de cooldown
+    }
+
     IEnumerator ActivarModoSombra()
     {
         isShadowMode = true;
         tiempoRestanteEnSombra = duracionModoSombra;
+
+        // Cambiar el tag a "Sombra"
+        gameObject.tag = "Sombra";
 
         // Activar la animación de entrada a sombra
         if (animator != null)
@@ -127,28 +194,28 @@ public class Sombra : MonoBehaviour
         // Reducir opacidad del personaje
         yield return StartCoroutine(FadeCharacter(0f));
 
-        // Nuevo: Mostrar la barra y el contador
-        barraUI.gameObject.SetActive(true);
-        barraUI.fillAmount = 1f; // Asegurar que la barra comience llena
-        if (contadorTMP != null)
+        // Mostrar la barra de duración del modo sombra
+        barraDuracionSombraUI.gameObject.SetActive(true);
+        barraDuracionSombraUI.fillAmount = 1f; // Inicialmente llena
+        if (contadorDuracionSombraTMP != null)
         {
-            contadorTMP.gameObject.SetActive(true);
-            contadorTMP.text = Mathf.CeilToInt(tiempoRestanteEnSombra).ToString(); // Mostrar el tiempo inicial
+            contadorDuracionSombraTMP.gameObject.SetActive(true);
+            contadorDuracionSombraTMP.text = Mathf.CeilToInt(tiempoRestanteEnSombra).ToString();
         }
 
         // Loop mientras el tiempo restante sea mayor que cero
         while (tiempoRestanteEnSombra > 0)
         {
-            // Actualizar la barra de la UI progresivamente
-            barraUI.fillAmount = tiempoRestanteEnSombra / duracionModoSombra;
+            // Actualizar la barra de duración progresivamente
+            barraDuracionSombraUI.fillAmount = tiempoRestanteEnSombra / duracionModoSombra;
 
-            // Actualizar el contador de tiempo
-            if (contadorTMP != null)
+            // Actualizar el contador de tiempo de duración
+            if (contadorDuracionSombraTMP != null)
             {
-                contadorTMP.text = Mathf.CeilToInt(tiempoRestanteEnSombra).ToString();
+                contadorDuracionSombraTMP.text = Mathf.CeilToInt(tiempoRestanteEnSombra).ToString();
             }
 
-            // Esperar un pequeño intervalo para la actualización progresiva (puedes ajustar este valor)
+            // Esperar un pequeño intervalo para la actualización progresiva
             yield return new WaitForSeconds(Time.deltaTime);
 
             // Decrementar el tiempo restante basado en el tiempo real transcurrido
@@ -156,10 +223,10 @@ public class Sombra : MonoBehaviour
         }
 
         // Asegurar que la barra llegue a 0 al final
-        barraUI.fillAmount = 0f;
-        if (contadorTMP != null)
+        barraDuracionSombraUI.fillAmount = 0f;
+        if (contadorDuracionSombraTMP != null)
         {
-            contadorTMP.text = "0";
+            contadorDuracionSombraTMP.text = "0";
         }
 
         // Iniciar la salida del modo sombra automáticamente al terminar el tiempo
@@ -169,6 +236,9 @@ public class Sombra : MonoBehaviour
     IEnumerator DesactivarModoSombra()
     {
         isShadowMode = false;
+
+        // Cambiar el tag de vuelta a "Player"
+        gameObject.tag = "Player";
 
         // Desactivar la animación de sombra
         if (animator != null)
@@ -196,12 +266,18 @@ public class Sombra : MonoBehaviour
             yield return StartCoroutine(FadePostProcessWeight(1f, 0f));
         }
 
-        // Nuevo: Ocultar la barra y el contador y resetear el contador
-        barraUI.gameObject.SetActive(false);
-        if (contadorTMP != null)
+        // Ocultar la barra de duración del modo sombra y su contador
+        barraDuracionSombraUI.gameObject.SetActive(false);
+        if (contadorDuracionSombraTMP != null)
         {
-            contadorTMP.gameObject.SetActive(false);
-            contadorTMP.text = "0"; // Asegurar que el contador se resetee a 0 al salir
+            contadorDuracionSombraTMP.gameObject.SetActive(false);
+            contadorDuracionSombraTMP.text = duracionModoSombra.ToString(); // Resetear el contador visualmente
+        }
+
+        // Iniciar el cooldown si no está ya en curso
+        if (cooldownCoroutine == null)
+        {
+            cooldownCoroutine = StartCoroutine(CooldownModoSombra());
         }
     }
 

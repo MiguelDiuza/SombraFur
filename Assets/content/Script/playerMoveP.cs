@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing; // Importar el espacio de nombres
+using UnityEngine.SceneManagement; // Importar para cargar escenas
 
 public class playerMoveP : MonoBehaviour
 {
@@ -9,16 +10,22 @@ public class playerMoveP : MonoBehaviour
     Transform playerTr;
     Rigidbody playerRb;
     Animator playerAnim;
+    [SerializeField] private Transform modeloVisual; // Asigna este en el Inspector
+
 
     public float playerSpeed = 5f; // Ajusta la velocidad base
     public bool hasPistol = false;
     private Vector2 newDirection;
+    private bool canMove = true; // Nuevo: Controla si el jugador puede moverse
 
     // Cámara
     public Transform cameraAxis;
     public Transform cameraTrack;
     public Transform cameraWeaponTrack;
     private Transform theCamera;
+    public Transform deathCameraLookAt; // Nuevo: Punto al que la cámara de muerte debe mirar
+    public float cameraMoveSpeedOnDeath = 5f; // Nuevo: Velocidad de movimiento de la cámara en la muerte
+    private bool isCameraMovingToDeathPos = false; // Nuevo: Controla si la cámara se está moviendo
 
     private float rotY = 0f;
     private float rotX = 0f;
@@ -47,6 +54,10 @@ public class playerMoveP : MonoBehaviour
     public string stairsTag = "Stairs"; // Etiqueta del objeto que representa la escalera
     private bool isOnStairs = false;
 
+    [Header("Muerte por Electricidad")]
+    public ParticleSystem electricParticlesPrefab; // Prefab de las partículas de electricidad
+    private bool isDead = false;
+
     void Start()
     {
         playerTr = this.transform;
@@ -67,32 +78,55 @@ public class playerMoveP : MonoBehaviour
         {
             Debug.LogWarning("El PostProcessVolume para apuntar no ha sido asignado en el Inspector.");
         }
+
+        // Asegurarse de que el punto de mira de la cámara de muerte esté asignado
+        if (deathCameraLookAt == null)
+        {
+            Debug.LogError("El punto de mira de la cámara de muerte no ha sido asignado en el Inspector.");
+        }
     }
 
     void Update()
     {
-        CameraLogic();
-        AnimLogic();
-        ItemLogic();
-
-        if (hasPistol)
+        if (canMove)
         {
-            if (Input.GetMouseButtonDown(1)) // Si presiona clic derecho
+            CameraLogic();
+            AnimLogic();
+            ItemLogic();
+
+            if (hasPistol)
             {
-                playerAnim.SetBool("holdPistol", true); // Activar animación de apuntar
-                StartCoroutine(FadeAimPostProcess(0f, 1f)); // Activar efecto de la cámara al apuntar
+                if (Input.GetMouseButtonDown(1)) // Si presiona clic derecho
+                {
+                    playerAnim.SetBool("holdPistol", true); // Activar animación de apuntar
+                    StartCoroutine(FadeAimPostProcess(0f, 1f)); // Activar efecto de la cámara al apuntar
+                }
+                else if (Input.GetMouseButtonUp(1)) // Si suelta el clic derecho
+                {
+                    playerAnim.SetBool("holdPistol", false); // Volver a animación normal
+                    StartCoroutine(FadeAimPostProcess(1f, 0f)); // Desactivar efecto de la cámara al dejar de apuntar
+                }
             }
-            else if (Input.GetMouseButtonUp(1)) // Si suelta el clic derecho
-            {
-                playerAnim.SetBool("holdPistol", false); // Volver a animación normal
-                StartCoroutine(FadeAimPostProcess(1f, 0f)); // Desactivar efecto de la cámara al dejar de apuntar
-            }
+        }
+        else if (isDead && deathCameraLookAt != null && isCameraMovingToDeathPos)
+        {
+            // Mover la cámara hacia arriba del personaje
+            Vector3 targetPosition = deathCameraLookAt.position + Vector3.up * 2f; // Ajusta la altura (5f) según necesites
+            theCamera.position = Vector3.Lerp(theCamera.position, targetPosition, cameraMoveSpeedOnDeath * Time.deltaTime);
+            theCamera.LookAt(deathCameraLookAt);
         }
     }
 
     void FixedUpdate()
     {
-        MoveLogic(); // El movimiento basado en la física debe ir en FixedUpdate
+        if (canMove)
+        {
+            MoveLogic(); // El movimiento basado en la física debe ir en FixedUpdate
+        }
+        else
+        {
+            playerRb.velocity = Vector3.zero; // Detener cualquier movimiento si no se puede mover
+        }
     }
 
     public void MoveLogic()
@@ -217,6 +251,10 @@ public class playerMoveP : MonoBehaviour
             isOnStairs = true;
             playerRb.velocity = Vector3.zero; // Detener cualquier movimiento al entrar a la escalera
         }
+        else if (other.CompareTag("Electric") && !isDead)
+        {
+            DieByElectric();
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -232,6 +270,60 @@ public class playerMoveP : MonoBehaviour
         }
     }
 
+    void DieByElectric()
+    {
+        isDead = true;
+        canMove = false; // El jugador ya no puede moverse
+        Debug.Log("Te electrocutaron");
+
+        // Generar partículas de electricidad en el modelo visual
+        if (electricParticlesPrefab != null && modeloVisual != null)
+        {
+            Instantiate(electricParticlesPrefab, modeloVisual.position, Quaternion.identity, modeloVisual);
+        }
+        else
+        {
+            Debug.LogWarning("Prefab de partículas o modeloVisual no asignado.");
+        }
+
+        // **Desactivar la animación de apuntar ANTES de la animación de muerte**
+        playerAnim.SetBool("holdPistol", false);
+        playerAnim.SetBool("deadPer", true);
+        playerAnim.SetBool("dead", true); // Asegurarse de activar el parámetro "dead"
+
+        // Iniciar el movimiento de la cámara
+        isCameraMovingToDeathPos = true;
+
+        // Iniciar la secuencia de muerte con la espera de la animación
+        StartCoroutine(DeathSequence());
+    }
+
+    IEnumerator DeathSequence()
+    {
+        // Esperar hasta que termine la animación de muerte
+        AnimatorClipInfo[] clipInfo = playerAnim.GetCurrentAnimatorClipInfo(0);
+        float deathAnimationDuration = 5f;
+        foreach (AnimatorClipInfo info in clipInfo)
+        {
+            if (info.clip.name.Contains("dead")) // Asegúrate de que el nombre del clip de muerte contenga "dead"
+            {
+                deathAnimationDuration = info.clip.length;
+                break;
+            }
+        }
+
+        // Si no se encontró una animación con "dead" en el nombre, usar un tiempo por defecto
+        if (deathAnimationDuration <= 0f)
+        {
+            deathAnimationDuration = 3f; // Tiempo de espera por defecto
+            Debug.LogWarning("No se encontró una animación con 'dead' en el nombre. Usando un tiempo de espera por defecto para la muerte.");
+        }
+
+        yield return new WaitForSeconds(deathAnimationDuration);
+
+        // Cargar la escena de Game Over
+        SceneManager.LoadScene("GameOver"); // Asegúrate de que "GameOver" sea el nombre de tu escena de Game Over
+    }
 
     IEnumerator FadeAimPostProcess(float startWeight, float endWeight)
     {
@@ -257,4 +349,6 @@ public class playerMoveP : MonoBehaviour
             aimPostProcessVolume.weight = endWeight;
         }
     }
+
+
 }

@@ -65,7 +65,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: -54
+    value: -39
   intensityX:
     overrideState: 0
     value: 1
@@ -98,7 +98,7 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   gradingMode:
-    overrideState: 0
+    overrideState: 1
     value: 1
   externalLut:
     overrideState: 0
@@ -134,13 +134,13 @@ MonoBehaviour:
     value: 1
   temperature:
     overrideState: 1
-    value: -0
+    value: 21
   tint:
     overrideState: 1
     value: -0
   colorFilter:
     overrideState: 1
-    value: {r: 0.9245283, g: 0.9245283, b: 0.9245283, a: 1}
+    value: {r: 0.7284209, g: 0.7028302, b: 1, a: 1}
   hueShift:
     overrideState: 0
     value: 0
@@ -1410,10 +1410,10 @@ MonoBehaviour:
     value: 1
   shutterAngle:
     overrideState: 1
-    value: 270
+    value: 299
   sampleCount:
     overrideState: 1
-    value: 10
+    value: 18
 --- !u!114 &-3825556159510461172
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1435,7 +1435,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 0.309
+    value: 0.393
   size:
     overrideState: 1
     value: 0.92
@@ -1484,7 +1484,7 @@ MonoBehaviour:
     defaultState: 1
   intensity:
     overrideState: 1
-    value: 0.755
+    value: 0.775
   fastMode:
     overrideState: 0
     value: 0

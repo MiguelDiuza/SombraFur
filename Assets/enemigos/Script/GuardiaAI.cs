@@ -39,6 +39,8 @@ public class GuardiaAI : MonoBehaviour
     public Transform puntoDisparo;
     public float timeBetweenAttacks = 2f;
     private bool alreadyAttacked;
+    public float initialAttackDelay = 2f; // Nuevo: Retraso inicial antes del primer ataque
+    private Coroutine attackCoroutine; // Variable para almacenar la corrutina de ataque
 
     [Header("Estados")]
     private bool chasingPlayer = false;
@@ -65,15 +67,25 @@ public class GuardiaAI : MonoBehaviour
         // ¡Prioridad al jugador! Si está persiguiendo, hacer eso.
         if (chasingPlayer && player != null)
         {
-            agent.SetDestination(player.position);
-            animator.SetBool("walk", true);
-            animator.SetBool("atrapado", false);
-            animator.SetBool("descanso", false);
-
             float distance = Vector3.Distance(transform.position, player.position);
             if (distance <= attackRange)
             {
-                AttackPlayer();
+                agent.isStopped = true; // Detener al agente al entrar en rango
+                animator.SetBool("walk", false); // Detener la animación de caminar
+                animator.SetBool("atrapado", true); // Activar animación de ataque
+
+                // Iniciar la corrutina de ataque solo si no está ya en ejecución
+                if (attackCoroutine == null)
+                {
+                    attackCoroutine = StartCoroutine(DelayedAttack());
+                }
+            }
+            else
+            {
+                agent.isStopped = false; // Continuar persiguiendo si está fuera de rango
+                agent.SetDestination(player.position);
+                animator.SetBool("walk", true);
+                animator.SetBool("atrapado", false);
             }
             return; // Importante: Salir del Update para no ejecutar otras lógicas
         }
@@ -165,25 +177,60 @@ public class GuardiaAI : MonoBehaviour
         if (distanceToPlayer > attackRange)
         {
             chasingPlayer = false;
+            agent.isStopped = false; // Reactivar el movimiento al salir del rango
+            animator.SetBool("walk", true);
+            animator.SetBool("atrapado", false);
+            // Detener la corrutina si el jugador sale del rango
+            if (attackCoroutine != null)
+            {
+                StopCoroutine(attackCoroutine);
+                attackCoroutine = null;
+            }
             return;
         }
 
-        agent.SetDestination(transform.position);
         transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
-        animator.SetBool("walk", false);
-        animator.SetBool("atrapado", true);
-        animator.SetBool("descanso", false);
 
         if (!alreadyAttacked)
         {
-            Rigidbody rb = Instantiate(projectile, puntoDisparo.position, puntoDisparo.rotation).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+            // Calcular dirección hacia el jugador (con diferencia de altura)
+            Vector3 direccion = (player.position + Vector3.up * 1.5f - puntoDisparo.position).normalized;
+
+            // Instanciar el proyectil
+            Rigidbody rb = Instantiate(projectile, puntoDisparo.position, Quaternion.LookRotation(direccion)).GetComponent<Rigidbody>();
+
+            // Aplicar fuerza en la dirección calculada
+            rb.AddForce(direccion * 40f, ForceMode.Impulse); // Puedes ajustar la potencia aquí
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
         SendMessage("PlayClip", sonidoDisparo, SendMessageOptions.DontRequireReceiver);
+    }
+
+    IEnumerator DelayedAttack()
+    {
+        // Esperar el tiempo de retraso inicial
+        yield return new WaitForSeconds(initialAttackDelay);
+
+        // Después del retraso, atacar mientras el jugador esté en rango y no esté muerto
+        while (chasingPlayer && player != null && !estaMuerto)
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            if (distanceToPlayer <= attackRange)
+            {
+                AttackPlayer();
+                yield return new WaitForSeconds(timeBetweenAttacks); // Esperar entre ataques
+            }
+            else
+            {
+                // Si el jugador sale del rango durante la corrutina, detenerla
+                attackCoroutine = null;
+                yield break;
+            }
+        }
+        // Asegurarse de que la corrutina se reinicie si termina (por ejemplo, si chasingPlayer se vuelve falso)
+        attackCoroutine = null;
     }
 
     void ResetAttack() => alreadyAttacked = false;
@@ -212,6 +259,7 @@ public class GuardiaAI : MonoBehaviour
         Destroy(GetComponent<Collider>(), 1f);
         this.enabled = false;
         SendMessage("PlayClip", sonidoMuerte, SendMessageOptions.DontRequireReceiver);
+        Debug.Log("Neutralizaste un guardia");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -223,6 +271,7 @@ public class GuardiaAI : MonoBehaviour
             chasingPlayer = true;
             investigatingNoise = false;
             isSearchingNoise = false;
+            Debug.Log("Te descubrieron");
         }
 
         if (other.CompareTag("ruido") && !chasingPlayer && !investigatingNoise)
@@ -231,6 +280,7 @@ public class GuardiaAI : MonoBehaviour
             investigatingNoise = true;
             isSearchingNoise = false;
             agent.isStopped = false;
+            Debug.Log("El guardia esta investigando el ruido");
         }
 
         if (other.CompareTag("Bala"))
