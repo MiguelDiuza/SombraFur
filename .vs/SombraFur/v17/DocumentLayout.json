@@ -3,11 +3,19 @@
   "WorkspaceRootPath": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\assets\\content\\script\\playermovep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\assets\\enemigos\\script\\moveprueba.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\enemigos\\script\\moveprueba.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\assets\\enemigos\\script\\guardiaai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\enemigos\\script\\guardiaai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|c:\\users\\mandi\\documents\\github\\sombrafur\\assets\\content\\script\\playermovep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\content\\script\\playermovep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|c:\\users\\mandi\\documents\\github\\sombrafur\\assets\\content\\script\\objectthrower.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\assets\\content\\script\\objectthrower.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\content\\script\\objectthrower.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -19,7 +27,7 @@
       "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\content\\script\\inventario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|c:\\users\\mandi\\documents\\github\\sombrafur\\assets\\content\\script\\weaponcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\assets\\content\\script\\weaponcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\content\\script\\weaponcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -27,11 +35,7 @@
       "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\content\\script\\bulletcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\assets\\enemigos\\script\\guardiaai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\enemigos\\script\\guardiaai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|c:\\users\\mandi\\documents\\github\\sombrafur\\assets\\content\\script\\detection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\assets\\content\\script\\detection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\content\\script\\detection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -49,10 +53,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\assets\\content\\script\\soundemitter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\content\\script\\soundemitter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\assets\\enemigos\\script\\moveprueba.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2B8EA4D2-67CB-F88F-1CE8-9D47D875C6E6}|Assembly-CSharp.csproj|solutionrelative:assets\\enemigos\\script\\moveprueba.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -62,7 +62,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,7 +70,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "ObjectThrower.cs",
               "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\ObjectThrower.cs",
               "RelativeDocumentMoniker": "Assets\\content\\Script\\ObjectThrower.cs",
@@ -78,12 +78,11 @@
               "RelativeToolTip": "Assets\\content\\Script\\ObjectThrower.cs",
               "ViewState": "AgIAAI8AAAAAAAAAAAAwwBcAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T04:08:00.826Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-19T04:08:00.826Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Detection.cs",
               "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\Detection.cs",
               "RelativeDocumentMoniker": "Assets\\content\\Script\\Detection.cs",
@@ -91,12 +90,11 @@
               "RelativeToolTip": "Assets\\content\\Script\\Detection.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T00:45:24.712Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-19T00:45:24.712Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "BulletController.cs",
               "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\BulletController.cs",
               "RelativeDocumentMoniker": "Assets\\content\\Script\\BulletController.cs",
@@ -104,12 +102,11 @@
               "RelativeToolTip": "Assets\\content\\Script\\BulletController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAE8AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-17T04:48:31.883Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-17T04:48:31.883Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "RecolectarObjetos.cs",
               "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\RecolectarObjetos.cs",
               "RelativeDocumentMoniker": "Assets\\content\\Script\\RecolectarObjetos.cs",
@@ -117,12 +114,11 @@
               "RelativeToolTip": "Assets\\content\\Script\\RecolectarObjetos.cs",
               "ViewState": "AgIAABkAAAAAAAAAAAAAwEMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-17T02:29:35.162Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-17T02:29:35.162Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "Inventario.cs",
               "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\Inventario.cs",
               "RelativeDocumentMoniker": "Assets\\content\\Script\\Inventario.cs",
@@ -130,12 +126,11 @@
               "RelativeToolTip": "Assets\\content\\Script\\Inventario.cs",
               "ViewState": "AgIAAAsAAAAAAAAAAAA4wDQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-17T02:28:53.123Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-17T02:28:53.123Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 0,
               "Title": "MovePrueba.cs",
               "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\enemigos\\Script\\MovePrueba.cs",
               "RelativeDocumentMoniker": "Assets\\enemigos\\Script\\MovePrueba.cs",
@@ -143,24 +138,25 @@
               "RelativeToolTip": "Assets\\enemigos\\Script\\MovePrueba.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-17T00:06:43.833Z"
+              "WhenOpened": "2025-05-17T00:06:43.833Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "GuardiaAI.cs",
               "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\enemigos\\Script\\GuardiaAI.cs",
               "RelativeDocumentMoniker": "Assets\\enemigos\\Script\\GuardiaAI.cs",
               "ToolTip": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\enemigos\\Script\\GuardiaAI.cs",
               "RelativeToolTip": "Assets\\enemigos\\Script\\GuardiaAI.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEBAAArAAAAAAAAAA==",
+              "ViewState": "AgIAAA8BAAAAAAAAAAAcwAEBAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-16T22:14:04.817Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "playerMoveP.cs",
               "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\playerMoveP.cs",
               "RelativeDocumentMoniker": "Assets\\content\\Script\\playerMoveP.cs",
@@ -173,7 +169,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "SoundEmitter.cs",
               "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\SoundEmitter.cs",
               "RelativeDocumentMoniker": "Assets\\content\\Script\\SoundEmitter.cs",
@@ -185,7 +181,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "WeaponController.cs",
               "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\WeaponController.cs",
               "RelativeDocumentMoniker": "Assets\\content\\Script\\WeaponController.cs",
@@ -193,12 +189,11 @@
               "RelativeToolTip": "Assets\\content\\Script\\WeaponController.cs",
               "ViewState": "AgIAADIAAAAAAAAAAAAkwDwAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-17T04:48:00.635Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-17T04:48:00.635Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "camaraMove.cs",
               "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\camaraMove.cs",
               "RelativeDocumentMoniker": "Assets\\content\\Script\\camaraMove.cs",
@@ -210,7 +205,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "EnemyHitHandler.cs",
               "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\enemigos\\Script\\EnemyHitHandler.cs",
               "RelativeDocumentMoniker": "Assets\\enemigos\\Script\\EnemyHitHandler.cs",
@@ -222,7 +217,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Sombra.cs",
               "DocumentMoniker": "C:\\Users\\mandi\\Documents\\GitHub\\SombraFur\\Assets\\content\\Script\\Sombra.cs",
               "RelativeDocumentMoniker": "Assets\\content\\Script\\Sombra.cs",
@@ -230,8 +225,7 @@
               "RelativeToolTip": "Assets\\content\\Script\\Sombra.cs",
               "ViewState": "AgIAABwBAAAAAAAAAAAkwEgBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-02T09:32:26.961Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-02T09:32:26.961Z"
             }
           ]
         }
