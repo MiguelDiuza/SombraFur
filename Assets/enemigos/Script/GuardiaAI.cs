@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class GuardiaAI : MonoBehaviour
 {
     public AudioClip sonidoMuerte;
     public AudioClip sonidoDisparo;
+
+
+    public GameObject alert;
 
 
     public NavMeshAgent agent;
@@ -173,6 +177,8 @@ public class GuardiaAI : MonoBehaviour
     {
         if (player == null) return;
 
+
+
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         if (distanceToPlayer > attackRange)
         {
@@ -272,6 +278,7 @@ public class GuardiaAI : MonoBehaviour
             investigatingNoise = false;
             isSearchingNoise = false;
             Debug.Log("Te descubrieron");
+            alert.SetActive(true); // Activa el panel
         }
 
         if (other.CompareTag("ruido") && !chasingPlayer && !investigatingNoise)

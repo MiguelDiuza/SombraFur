@@ -582,6 +582,7 @@ MonoBehaviour:
   additionalEffect1: {fileID: 2787556212050310887, guid: 57970c6bb711ec24b8d98424b1806f3b, type: 3}
   additionalEffect2: {fileID: 4503612902121041701, guid: 5a936c83b1746f14f9100db745e94f04, type: 3}
   objetoAActivar: {fileID: 2694646854666367031}
+  hasCollided: 0
 --- !u!114 &817797062347125492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -791,7 +792,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2347941452f672349a99c5d75f9a3e99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panel: {fileID: 0}
+  panel: {fileID: 3310520149428661997, guid: feb6ec962e791864d845f0213b5e44de, type: 3}
+  delayBeforeLoad: 5
   puedeDetectarSombra: 1
 --- !u!64 &8583503648880795433
 MeshCollider:

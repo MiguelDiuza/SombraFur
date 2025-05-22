@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class CamaraMove : MonoBehaviour
 {
-
     [Header("Sonidos Cámara")]
     public AudioClip sonidoBom;
     public AudioClip sonidoChispas;
@@ -21,15 +20,25 @@ public class CamaraMove : MonoBehaviour
     private float currentRotation = 0f;
     private int direction = 1;
     private bool isPaused = false;
-    private bool hasCollided = false;
+    public bool hasCollided = false; // Esta bandera ahora indica que la cámara está "desactivada"
     private Quaternion targetRotation;
     private bool isLookingDown = false;
     private float lookDownStartTime;
     private GameObject instantiatedEffect1;
     private GameObject instantiatedEffect2;
 
+    // Ya no necesitamos destroyDelay aquí si no vamos a destruir el GameObject.
+    // public float destroyDelay = 5f; 
+
     void Start()
     {
+        // Registrar esta cámara en el inventario al inicio, solo si no ha sido "desactivada" previamente.
+        // Esto es útil si cargas la escena y una cámara ya estaba en estado "hasCollided".
+        if (CameraInventory.Instance != null && !hasCollided)
+        {
+            CameraInventory.Instance.AddCamera(gameObject);
+        }
+
         targetRotation = Quaternion.Euler(60f, transform.eulerAngles.y, transform.eulerAngles.z);
 
         if (additionalEffect1 != null)
@@ -47,6 +56,7 @@ public class CamaraMove : MonoBehaviour
 
     void Update()
     {
+        // Solo ejecuta la lógica de movimiento si no ha colisionado (está activa)
         if (!hasCollided)
         {
             if (!isPaused)
@@ -61,7 +71,7 @@ public class CamaraMove : MonoBehaviour
                 }
             }
         }
-        else if (isLookingDown)
+        else if (isLookingDown) // Esta parte seguirá ejecutándose si la cámara está "desactivada" y mirando hacia abajo
         {
             float elapsedTime = Time.time - lookDownStartTime;
             if (elapsedTime < lookDownDuration)
@@ -73,7 +83,6 @@ public class CamaraMove : MonoBehaviour
                 transform.rotation = targetRotation;
                 isLookingDown = false;
             }
-            
         }
     }
 
@@ -87,16 +96,17 @@ public class CamaraMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Comprueba si ya colisionó para evitar múltiples restas
         if (other.CompareTag("Bala") && !hasCollided)
         {
-            hasCollided = true;
-            StopAllCoroutines();
+            hasCollided = true; // Marca la cámara como "desactivada"
+            StopAllCoroutines(); // Detiene la rotación y pausas
             isPaused = true;
-            rotationSpeed = 0;
+            rotationSpeed = 0; // Detiene la rotación
 
             if (detectorObject != null)
             {
-                detectorObject.SetActive(false);
+                detectorObject.SetActive(false); // Desactiva el detector (si es un componente visual)
             }
 
             isLookingDown = true;
@@ -121,10 +131,22 @@ public class CamaraMove : MonoBehaviour
             if (objetoAActivar != null)
             {
                 objetoAActivar.SetActive(true);
-                StartCoroutine(DesactivarObjeto(5f)); // Llama a la corrutina para desactivar después de 5 segundos
+                StartCoroutine(DesactivarObjeto(5f));
             }
             SendMessage("PlayClip", sonidoBom, SendMessageOptions.DontRequireReceiver);
             SendMessage("PlayClip", sonidoChispas, SendMessageOptions.DontRequireReceiver);
+
+            // ¡Lo nuevo! Notificar al inventario que esta cámara ya no está "activa"
+            if (CameraInventory.Instance != null)
+            {
+                CameraInventory.Instance.RemoveCamera(gameObject); // Remueve del conteo
+            }
+
+            // Opcional: Desactivar el componente CamaraMove si no quieres que siga haciendo nada más
+            // Esto es útil si quieres que la cámara solo "muera" una vez y luego no ejecute más lógica.
+            // this.enabled = false; 
+            // Si la desactivas, la lógica isLookingDown no se ejecutará más. Decide si quieres eso.
+            // Si quieres que siga mirando hacia abajo, no desactives el script.
         }
     }
 
@@ -136,4 +158,15 @@ public class CamaraMove : MonoBehaviour
             objetoAActivar.SetActive(false);
         }
     }
+
+    // Ya no necesitas OnDestroy si no vas a destruir el GameObject.
+    // La notificación de "remoción" ya se hace en OnTriggerEnter.
+    // private void OnDestroy()
+    // {
+    //     if (CameraInventory.Instance != null)
+    //     {
+    //         CameraInventory.Instance.RemoveCamera(gameObject);
+    //     }
+    //     Debug.Log($"Cámara '{gameObject.name}' destruida y removida del inventario.");
+    // }
 }
