@@ -81,7 +81,7 @@ public class Sombra : MonoBehaviour
         }
         else
         {
-            barraCooldownUI.gameObject.SetActive(false); // Inicialmente oculta
+            barraCooldownUI.gameObject.SetActive(true ); // Inicialmente oculta
         }
 
         // Nuevo: Inicialmente ocultar los contadores de texto si están asignados
@@ -138,7 +138,7 @@ public class Sombra : MonoBehaviour
         }
 
         // Cooldown finalizado
-        barraCooldownUI.gameObject.SetActive(false);
+        
         if (contadorCooldownTMP != null)
         {
             contadorCooldownTMP.gameObject.SetActive(false);
