@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Scene
+  m_Title: Hierarchy
   m_RootView: {fileID: 8}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 100}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 124
+  controlID: 125
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -277,7 +277,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 125
+  controlID: 126
   draggingID: 0
 --- !u!114 &12
 MonoBehaviour:
@@ -304,7 +304,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 50}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 126
+  controlID: 127
   draggingID: 0
 --- !u!114 &13
 MonoBehaviour:
@@ -622,7 +622,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/PRUEBAS
+    - Assets/UnityTechnologies/EffectExamples
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -630,16 +630,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/PRUEBAS
+  - Assets/UnityTechnologies/EffectExamples
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\mandi\Documents\GitHub\SombraFur
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 580}
-    m_SelectedIDs: 9ca30000
-    m_LastClickedID: 41884
-    m_ExpandedIDs: 0000000062a3000064a3000066a3000068a300006aa300006ca300006ea3000070a3000072a3000074a3000076a3000078a300007aa300007ca300007ea3000080a3000082a3000084a3000086a3000088a300008aa300008ca300008ea3000090a3000092a3000094a3000096a3000098a300009aa300009ca300009ea30000a0a30000a2a30000a4a30000a6a30000a8a30000aaa30000aca30000aea30000b0a30000b2a3000034a5000038a50000c41202009c48030000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 1236}
+    m_SelectedIDs: 72a30000
+    m_LastClickedID: 41842
+    m_ExpandedIDs: 0000000066a3000068a300006aa300006ca300006ea3000070a3000072a3000074a3000076a3000078a300007aa300007ca300007ea3000080a3000082a3000084a3000086a3000088a300008aa300008ca300008ea3000090a3000092a3000094a3000096a3000098a300009aa300009ca300009ea30000a0a30000a2a30000a4a30000a6a30000a8a30000aaa30000aca30000aea30000b0a30000b2a30000b4a30000b6a30000b8a30000baa30000bca3000078a4000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -667,7 +667,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000062a3000064a3000066a3000068a300006aa300006ca300006ea3000070a3000072a3000074a3000076a3000078a300007aa300007ca300007ea3000080a3000082a3000084a3000086a3000088a300008aa300008ca300008ea3000090a3000092a3000094a3000096a3000098a300009aa300009ca300009ea30000a0a30000a2a30000a4a30000a6a30000a8a30000aaa30000aca30000aea30000b0a30000b2a30000
+    m_ExpandedIDs: 0000000066a3000068a300006aa300006ca300006ea3000070a3000072a3000074a3000076a3000078a300007aa300007ca300007ea3000080a3000082a3000084a3000086a3000088a300008aa300008ca300008ea3000090a3000092a3000094a3000096a3000098a300009aa300009ca300009ea30000a0a30000a2a30000a4a30000a6a30000a8a30000aaa30000aca30000aea30000b0a30000b2a30000b4a30000b6a30000b8a30000baa30000bca30000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -694,7 +694,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000a49f010088cb00007a200000e62a00009224010054fc00009a170100c61e01004e9b0000a2050100bec2080082040100708300009a590e0040500000dac500001263200004a620000000000086130200
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -807,9 +807,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: c86b0000
       m_LastClickedID: 0
-      m_ExpandedIDs: 0456f7ff4295f7ff2c0bf8ff762ef8ff1e65f9ff926af9ff82e1f9ff8646faff2247faff52e7faff2612fbffc472fbff24acfbffccacfbff4a27fcff6a27fcff7027fcff8227fcffb427fcffbe27fcff6894fcff6618fdff6c18fdff7e18fdffa618fdffb018fdffd819fdffc0e5feff24ecfeff0824ffff0a24ffffb426ffff0c40ffffcc44ffffe444fffff444ffff4647ffff04fbffffd06e00006e7f0000c47f000050100300c4100300d2100300724803000875040012750400f4fb04004612050050120500a45c0500ae5c0500
+      m_ExpandedIDs: 04fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1291,7 +1291,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0.35246515, y: -0.047481626, z: 0.016071657, w: 0.9353027}
     speed: 2
-    m_Value: {x: 0.35219485, y: -0.047445215, z: 0.016059332, w: 0.9345854}
+    m_Value: {x: -0.35246515, y: 0.047481626, z: -0.016071657, w: -0.9353027}
   m_Size:
     m_Target: 37.969055
     speed: 2
