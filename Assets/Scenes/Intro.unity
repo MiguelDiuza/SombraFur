@@ -683,7 +683,7 @@ MonoBehaviour:
     la misi\xF3n!"
   velocidadEscritura: 0.03
   fadeImage: {fileID: 794244427}
-  fadeDuration: 1.5
+  fadeDuration: 0
   nombreEscenaJuego: Nivel1
   zoomFactor: 1.1
   zoomDuration: 5

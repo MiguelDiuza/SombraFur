@@ -13,6 +13,7 @@ TagManager:
   - enemy
   - Sombra
   - Electric
+  - Robo
   layers:
   - Default
   - TransparentFX

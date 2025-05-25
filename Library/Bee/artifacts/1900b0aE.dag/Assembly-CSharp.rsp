@@ -372,6 +372,7 @@
 -analyzer:"C:/Program Files/Unity/Hub/Editor/2022.3.60f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/content/imgg/intro/scriipts/GameOverButtonHandler.cs"
 "Assets/content/imgg/intro/scriipts/IntroManager.cs"
+"Assets/content/Script/Artefacto.cs"
 "Assets/content/Script/BulletController.cs"
 "Assets/content/Script/camaraMove.cs"
 "Assets/content/Script/camaraPerson.cs"
